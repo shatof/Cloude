@@ -9,6 +9,7 @@ import { projectLeadConfig } from './projectLead/config';
 import { scratchpadConfig } from './scratchpad/config';
 import type { MiniGameProps } from './shared';
 import { switchboardConfig } from './switchboard/config';
+import { testBenchConfig } from './testBench/config';
 import { TokenWorkshop } from './tokenWorkshop/TokenWorkshop';
 import { toolWorkshopConfig } from './toolWorkshop/config';
 import './minigames.css';
@@ -28,4 +29,5 @@ export const MINIGAMES: Record<string, ComponentType<MiniGameProps>> = {
   'assembly-workshop': configuredMiniGame(assemblyConfig),
   conductor: configuredMiniGame(conductorConfig),
   switchboard: configuredMiniGame(switchboardConfig),
+  'test-bench': configuredMiniGame(testBenchConfig),
 };

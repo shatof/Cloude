@@ -9,6 +9,7 @@ import { level6, level6Cards } from './level6';
 import { level7, level7Cards } from './level7';
 import { level8, level8Cards } from './level8';
 import { level9, level9Cards } from './level9';
+import { level10, level10Cards } from './level10';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -41,16 +42,7 @@ export const LEVELS: LevelDefinition[] = [
   level7,
   level8,
   level9,
-  upcoming(
-    'l10',
-    10,
-    '10',
-    'Long horizon et évaluation',
-    'Évaluer',
-    'Agents qui travaillent des heures, persistance, benchmarks, LLM-as-judge ; agent harness contre eval harness.',
-    'observatoire',
-    'eval-badge',
-  ),
+  level10,
   upcoming(
     'l11',
     11,
@@ -95,7 +87,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards, ...level9Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards, ...level9Cards, ...level10Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

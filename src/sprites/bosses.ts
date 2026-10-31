@@ -332,6 +332,42 @@ function spaghetti(): Sprite {
   return g.toSprite();
 }
 
+function goodhart(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Anses
+  g.ring(6.5, 9, 4.2, 1.6, 'y').ring(25.5, 9, 4.2, 1.6, 'y');
+  // Coupe
+  fillPolygon(
+    g,
+    [
+      [6, 3],
+      [26, 3],
+      [24, 14],
+      [19, 19],
+      [13, 19],
+      [8, 14],
+    ],
+    'y',
+  );
+  g.hline(6, 25, 3, 'w').vline(8, 5, 11, 'w');
+  g.vline(23, 6, 12, 'o').vline(22, 13, 15, 'o');
+  // « 100 » : les deux zéros servent d'yeux
+  g.stamp(['.k.', 'kk.', '.k.', '.k.', 'kkk'], 10, 6);
+  g.stamp(['kkk', 'kwk', 'kkk', 'kwk', 'kkk'], 14, 6);
+  g.stamp(['kkk', 'kwk', 'kkk', 'kwk', 'kkk'], 18, 6);
+  g.set(15, 7, 'w').set(19, 7, 'w');
+  // Sourire satisfait
+  g.stamp(['k.....k', '.kkkkk.'], 13, 13);
+  // Pied et socle
+  g.rect(14, 19, 4, 5, 'o').vline(14, 19, 23, 'y');
+  g.bevelBox(8, 24, 16, 6, { fill: 'o', hi: 'y', lo: 'r', r: 1 });
+  g.rect(12, 26, 8, 2, 'w');
+  // Éclats de gloire
+  g.stamp(['.w.', 'www', '.w.'], 1, 18).stamp(['.y.', 'yyy', '.y.'], 28, 18).set(29, 1, 'w');
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
@@ -343,4 +379,5 @@ export const BOSS_SPRITES: Record<string, Sprite> = {
   bulldozer: bulldozer(),
   hydre: hydre(),
   spaghetti: spaghetti(),
+  goodhart: goodhart(),
 };
