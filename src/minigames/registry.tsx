@@ -4,6 +4,7 @@ import { conductorConfig } from './conductor/config';
 import { contextSuitcaseConfig } from './contextSuitcase/config';
 import { governanceConfig } from './governance/config';
 import { injectionLabConfig } from './injectionLab/config';
+import { architectConfig } from './architect/config';
 import { configuredMiniGame } from './kit/rounds';
 import { librarianConfig } from './librarian/config';
 import { LoopRunner } from './loopRunner/LoopRunner';
@@ -34,4 +35,5 @@ export const MINIGAMES: Record<string, ComponentType<MiniGameProps>> = {
   'test-bench': configuredMiniGame(testBenchConfig),
   'injection-lab': configuredMiniGame(injectionLabConfig),
   governance: configuredMiniGame(governanceConfig),
+  'architect-workshop': configuredMiniGame(architectConfig),
 };

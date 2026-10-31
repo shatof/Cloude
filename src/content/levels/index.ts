@@ -12,27 +12,12 @@ import { level9, level9Cards } from './level9';
 import { level10, level10Cards } from './level10';
 import { level11, level11Cards } from './level11';
 import { level12, level12Cards } from './level12';
+import { levelFinal, levelFinalCards } from './levelFinal';
 
 /**
- * Registre des niveaux, dans l'ordre du parcours.
- *
- * Un niveau sans `content` s'affiche sur la carte (titre + concept) avec la mention
- * « contenu à venir ». Pour le remplir : créer `levelN.ts` sur le modèle de `level1.ts`,
- * puis remplacer l'entrée correspondante ci-dessous (voir docs/AJOUTER-UN-NIVEAU.md).
+ * Registre des niveaux, dans l'ordre du parcours. Les 14 niveaux ont leur contenu ;
+ * pour en ajouter un, voir docs/AJOUTER-UN-NIVEAU.md.
  */
-function upcoming(
-  id: LevelId,
-  order: number,
-  badge: string,
-  title: string,
-  shortTitle: string,
-  concept: string,
-  zone: ZoneId,
-  harnessPieceId: string,
-): LevelDefinition {
-  return { id, order, badge, title, shortTitle, concept, zone, harnessPieceId };
-}
-
 export const LEVELS: LevelDefinition[] = [
   level0,
   level1,
@@ -47,16 +32,7 @@ export const LEVELS: LevelDefinition[] = [
   level10,
   level11,
   level12,
-  upcoming(
-    'final',
-    13,
-    'F',
-    'Boss final : l’architecte',
-    'Boss final',
-    'Concevoir le harnais complet d’un agent pour un cas réel, puis recevoir un retour détaillé.',
-    'sommet',
-    'architect-cape',
-  ),
+  levelFinal,
 ];
 
 export const ZONES: Record<ZoneId, { name: string }> = {
@@ -71,7 +47,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards, ...level9Cards, ...level10Cards, ...level11Cards, ...level12Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards, ...level9Cards, ...level10Cards, ...level11Cards, ...level12Cards, ...levelFinalCards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

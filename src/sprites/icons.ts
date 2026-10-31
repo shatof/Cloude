@@ -955,6 +955,21 @@ export const ICONS: Record<string, Sprite> = {
     '............',
   ]),
 
+  blueprint: ui([
+    'xxxxxxxxxxxx',
+    'x..x.....x.x',
+    'x..x.xxx.x.x',
+    'x..x.x.x.x.x',
+    'x..x.xxx.x.x',
+    'x..xxxxxxx.x',
+    'x..x.....x.x',
+    'x.xxxxx..x.x',
+    'x........x.x',
+    'x..xxxxxxx.x',
+    'x..........x',
+    'xxxxxxxxxxxx',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -1063,6 +1078,7 @@ const CARD_TINTS: Record<string, [string, string]> = {
   'kill-switch': ['stop', 'r'],
   'ai-act': ['gavel', 'c'],
   'agentic-commerce': ['cart', 'l'],
+  'agent-architecture': ['blueprint', 'y'],
 };
 for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
   const sprite = ICONS[base];

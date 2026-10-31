@@ -430,6 +430,35 @@ function sansfrein(): Sprite {
   return g.toSprite();
 }
 
+function double(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Un « miroir » de Bob : même cerveau, mais corps à peine ébauché, en gris.
+  // Antenne
+  g.vline(16, 1, 4, 'm');
+  g.disc(16, 2, 1.4, 'c');
+  // Cerveau exposé (le même que celui de Bob : prune/framboise)
+  g.disc(16, 8, 4.5, 'p');
+  g.disc(15, 7, 3, 'r');
+  g.set(14, 6, 'o');
+  // Tête, en gris terne (pas de couleurs vives : harnais absent)
+  g.bevelBox(8, 10, 16, 12, { fill: 'm', hi: 'i', lo: 'd', r: 3 });
+  // Visage : écran éteint, regard vide
+  g.bevelBox(10, 12, 12, 7, { fill: 'd', lo: 'k', r: 1 });
+  g.rect(12, 14, 3, 3, 'i').rect(13, 15, 1, 1, 'k');
+  g.rect(17, 14, 3, 3, 'i').rect(18, 15, 1, 1, 'k');
+  g.hline(13, 18, 18, 'k');
+  // Corps à peine esquissé : contour en pointillés (le harnais manque)
+  for (let x = 8; x <= 24; x += 2) g.set(x, 24, 'm');
+  for (let y = 24; y <= 30; y += 2) { g.set(8, y, 'm'); g.set(24, y, 'm'); }
+  for (let x = 8; x <= 24; x += 2) g.set(x, 30, 'm');
+  // Emplacements de pièces, vides
+  g.rect(12, 26, 3, 3, 'k').rect(17, 26, 3, 3, 'k');
+  // Pépins de glitch
+  g.set(5, 9, 'c').set(27, 13, 'c').set(4, 18, 'r').set(28, 20, 'r');
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
@@ -444,4 +473,5 @@ export const BOSS_SPRITES: Record<string, Sprite> = {
   goodhart: goodhart(),
   cheval: cheval(),
   sansfrein: sansfrein(),
+  double: double(),
 };
