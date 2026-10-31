@@ -268,6 +268,48 @@ function bulldozer(): Sprite {
   return g.toSprite();
 }
 
+function hydre(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Trois cous
+  fillPolygon(
+    g,
+    [
+      [11, 22],
+      [5, 11],
+      [9, 10],
+      [15, 21],
+    ],
+    'g',
+  );
+  g.rect(14, 8, 4, 14, 'g');
+  fillPolygon(
+    g,
+    [
+      [21, 22],
+      [27, 11],
+      [23, 10],
+      [17, 21],
+    ],
+    'g',
+  );
+  // Corps, ventre, pattes
+  g.disc(16, 24.5, 7, 'g');
+  g.disc(16, 26.5, 4.2, 'l');
+  g.rect(9, 29, 4, 3, 'g').rect(19, 29, 4, 3, 'g');
+  // Têtes : chacune regarde ailleurs
+  g.disc(6, 8.5, 3.6, 'g').rect(0, 8, 3, 3, 'g');
+  g.disc(16, 5.5, 3.6, 'g').rect(15, 0, 2, 2, 'g');
+  g.disc(26, 8.5, 3.6, 'g').rect(29, 8, 3, 3, 'g');
+  g.rect(5, 7, 2, 2, 'w').set(5, 7, 'k');
+  g.rect(15, 4, 2, 2, 'w').set(16, 4, 'k');
+  g.rect(25, 7, 2, 2, 'w').set(26, 8, 'k');
+  g.set(1, 10, 'r').set(30, 10, 'r').hline(15, 16, 7, 'r');
+  // Crête
+  g.set(12, 19, 'l').set(16, 17, 'l').set(20, 19, 'l');
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
@@ -277,4 +319,5 @@ export const BOSS_SPRITES: Record<string, Sprite> = {
   poisson: poisson(),
   entasseur: entasseur(),
   bulldozer: bulldozer(),
+  hydre: hydre(),
 };

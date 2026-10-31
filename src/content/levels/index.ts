@@ -7,6 +7,7 @@ import { level4, level4Cards } from './level4';
 import { level5, level5Cards } from './level5';
 import { level6, level6Cards } from './level6';
 import { level7, level7Cards } from './level7';
+import { level8, level8Cards } from './level8';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -37,16 +38,7 @@ export const LEVELS: LevelDefinition[] = [
   level5,
   level6,
   level7,
-  upcoming(
-    'l8',
-    8,
-    '8',
-    'Multi-agents',
-    'Multi-agents',
-    'Orchestrateur, sous-agents et swarms : le harnais qui lance d’autres agents.',
-    'archipel',
-    'drone-bay',
-  ),
+  level8,
   upcoming(
     'l9',
     9,
@@ -111,7 +103,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

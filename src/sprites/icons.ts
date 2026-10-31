@@ -712,6 +712,49 @@ export const ICONS: Record<string, Sprite> = {
     '....xxxx....',
   ]),
 
+  hub: ui([
+    'xx........xx',
+    'xx........xx',
+    '..x......x..',
+    '...x....x...',
+    '....xxxx....',
+    '....xxxx....',
+    '....xxxx....',
+    '....xxxx....',
+    '...x....x...',
+    '..x......x..',
+    'xx........xx',
+    'xx........xx',
+  ]),
+  drone: ui([
+    '............',
+    'xxxx....xxxx',
+    '..x......x..',
+    '..x......x..',
+    '.xxxxxxxxxx.',
+    '.x..xxxx..x.',
+    '.x..x..x..x.',
+    '.x..xxxx..x.',
+    '.xxxxxxxxxx.',
+    '..x......x..',
+    '.xx......xx.',
+    '............',
+  ]),
+  dots: ui([
+    '.xx.........',
+    '.xx....xx...',
+    '.......xx...',
+    '...xx.......',
+    '...xx....xx.',
+    '.........xx.',
+    'xx..........',
+    'xx....xx....',
+    '......xx....',
+    '..........xx',
+    '...xx.....xx',
+    '...xx.......',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -803,6 +846,9 @@ const CARD_TINTS: Record<string, [string, string]> = {
   'permissions-sandbox': ['box', 'o'],
   hook: ['crochet', 'y'],
   verification: ['check-circle', 'l'],
+  orchestrator: ['hub', 'y'],
+  subagent: ['drone', 'c'],
+  swarm: ['dots', 'l'],
 };
 for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
   const sprite = ICONS[base];
