@@ -368,6 +368,34 @@ function goodhart(): Sprite {
   return g.toSprite();
 }
 
+function cheval(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Roues
+  g.disc(9, 28, 3, 'o').disc(9, 28, 1.2, 'k');
+  g.disc(23, 28, 3, 'o').disc(23, 28, 1.2, 'k');
+  // Plateforme à roulettes
+  g.bevelBox(4, 23, 24, 4, { fill: 'o', hi: 'y', lo: 'r', r: 1 });
+  // Corps du cheval de bois
+  g.bevelBox(7, 13, 18, 11, { fill: 'o', hi: 'y', lo: 'r', r: 2 });
+  g.hline(9, 22, 18, 'r').hline(9, 22, 21, 'r');
+  // Cou et tête
+  g.bevelBox(18, 5, 7, 10, { fill: 'o', hi: 'y', lo: 'r', r: 1 });
+  g.rect(23, 7, 3, 3, 'o');
+  // Crinière
+  g.stamp(['r.', 'rr', '.r', 'rr', '.r'], 16, 4);
+  // Œil et naseau
+  g.rect(21, 8, 2, 2, 'k').set(21, 8, 'w');
+  g.set(25, 11, 'k');
+  // Oreille
+  g.stamp(['y', 'y'], 20, 3);
+  // Trappe secrète : des soldats cachés dedans
+  g.bevelBox(10, 16, 10, 6, { fill: 'd', r: 1 });
+  g.rect(12, 18, 2, 2, 'r').rect(16, 18, 2, 2, 'r');
+  g.set(12, 17, 'i').set(16, 17, 'i');
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
@@ -380,4 +408,5 @@ export const BOSS_SPRITES: Record<string, Sprite> = {
   hydre: hydre(),
   spaghetti: spaghetti(),
   goodhart: goodhart(),
+  cheval: cheval(),
 };

@@ -1205,3 +1205,81 @@
   font-size: 1.15rem;
   text-align: right;
 }
+
+/* ------------------------------------------------------------------ */
+/* Labo de sécurité (niveau 11)                                        */
+/* ------------------------------------------------------------------ */
+
+.lab {
+  display: grid;
+  grid-template-columns: minmax(280px, 5fr) 7fr;
+  gap: var(--gap);
+  align-items: start;
+}
+
+.lab__defenses,
+.lab__results {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.lab__launch {
+  display: grid;
+  gap: 8px;
+}
+
+.lab__trials {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lab__trial {
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  background: var(--surface);
+  box-shadow: inset 3px 0 0 0 var(--slate);
+}
+
+.lab__trial--breach {
+  box-shadow: inset 3px 0 0 0 var(--coral);
+}
+
+.lab__trial--safe {
+  box-shadow: inset 3px 0 0 0 var(--lime);
+}
+
+.lab__verdict {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.lab__badge {
+  margin-left: auto;
+  padding: 1px 6px;
+  font-family: var(--font-data);
+  font-size: 0.9rem;
+  background: var(--lime);
+  color: var(--ink);
+}
+
+.lab__badge--sim {
+  background: var(--steel);
+}
+
+.lab__tech {
+  color: var(--gold);
+  font-size: 0.86rem;
+}
+
+.lab__explain {
+  font-size: 0.92rem;
+}

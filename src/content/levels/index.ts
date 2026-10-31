@@ -10,6 +10,7 @@ import { level7, level7Cards } from './level7';
 import { level8, level8Cards } from './level8';
 import { level9, level9Cards } from './level9';
 import { level10, level10Cards } from './level10';
+import { level11, level11Cards } from './level11';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -43,16 +44,7 @@ export const LEVELS: LevelDefinition[] = [
   level8,
   level9,
   level10,
-  upcoming(
-    'l11',
-    11,
-    '11',
-    'Sécurité des agents',
-    'Sécurité',
-    'Prompt injection directe et indirecte, promptware, memory poisoning, identité d’agent, moindre privilège. Un contenu non fiable n’hérite jamais de l’autorité de l’utilisateur.',
-    'citadelle',
-    'prompt-shield',
-  ),
+  level11,
   upcoming(
     'l12',
     12,
@@ -87,7 +79,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards, ...level9Cards, ...level10Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards, ...level9Cards, ...level10Cards, ...level11Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

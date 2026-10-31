@@ -855,6 +855,49 @@ export const ICONS: Record<string, Sprite> = {
     '............',
   ]),
 
+  syringe: ui([
+    '.........xxx',
+    '........xxx.',
+    '.....x.xx.x.',
+    '....xxxxx...',
+    '...xx.xx....',
+    '..xx.xx.....',
+    '.xx.xx......',
+    'xxx.x.......',
+    'xx.x........',
+    'xxx.........',
+    'xx..........',
+    '............',
+  ]),
+  skull: ui([
+    '..xxxxxxxx..',
+    '.xxxxxxxxxx.',
+    'xx.xxxx.xxxx',
+    'xx.xxxx.xxxx',
+    'xxxx..xxxxxx',
+    'xxxxxxxxxxxx',
+    '.xxxxxxxxxx.',
+    '..xx.xx.xx..',
+    '..x.x.x.x...',
+    '..xxxxxxxx..',
+    '............',
+    '............',
+  ]),
+  keycard: ui([
+    '............',
+    'xxxxxxxxxxxx',
+    'x..........x',
+    'x.xxxx.....x',
+    'x.xxxx..xx.x',
+    'x.......xx.x',
+    'x..xxx.....x',
+    'x..xxx..xx.x',
+    'x.......xx.x',
+    'x..........x',
+    'xxxxxxxxxxxx',
+    '............',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -956,6 +999,9 @@ const CARD_TINTS: Record<string, [string, string]> = {
   benchmark: ['clipboard', 'y'],
   'eval-harness': ['gauge', 'l'],
   'llm-judge': ['scales', 'o'],
+  'prompt-injection': ['syringe', 'r'],
+  'memory-poisoning': ['skull', 'p'],
+  'least-privilege': ['keycard', 'c'],
 };
 for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
   const sprite = ICONS[base];
