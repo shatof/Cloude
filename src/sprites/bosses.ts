@@ -310,6 +310,28 @@ function hydre(): Sprite {
   return g.toSprite();
 }
 
+function spaghetti(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Câbles qui s'échappent, avec leurs fiches
+  g.stamp(['yy...', '.yy..', '..yy.', '...yy', '....y'], 4, 5).rect(2, 2, 3, 3, 'm').set(3, 3, 'i');
+  g.stamp(['...yy', '..yy.', '.yy..', 'yy...', 'y....'], 23, 5).rect(27, 2, 3, 3, 'm').set(28, 3, 'i');
+  g.stamp(['y...', '.y..', '..yy', '...y'], 1, 14).rect(0, 11, 3, 3, 'm');
+  g.stamp(['...y', '..y.', 'yy..', 'y...'], 27, 15).rect(29, 12, 3, 3, 'm');
+  // Assiette
+  g.bevelBox(1, 24, 30, 6, { fill: 'w', lo: 'i', r: 2 });
+  // Pelote de spaghettis
+  g.disc(16, 17, 9.5, 'y');
+  g.ring(12, 14, 4, 1, 'o').ring(20, 15, 4.5, 1, 'o').ring(15, 21, 4, 1, 'o').ring(22, 21, 3, 1, 'o');
+  // Boulettes
+  g.disc(9, 21, 2, 'r').disc(24, 18.5, 1.8, 'r');
+  // Visage fier
+  g.rect(12, 12, 3, 3, 'w').rect(13, 13, 2, 2, 'k');
+  g.rect(18, 12, 3, 3, 'w').rect(18, 13, 2, 2, 'k');
+  g.stamp(['k....k', '.kkkk.'], 13, 17);
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
@@ -320,4 +342,5 @@ export const BOSS_SPRITES: Record<string, Sprite> = {
   entasseur: entasseur(),
   bulldozer: bulldozer(),
   hydre: hydre(),
+  spaghetti: spaghetti(),
 };

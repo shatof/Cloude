@@ -8,6 +8,7 @@ import { level5, level5Cards } from './level5';
 import { level6, level6Cards } from './level6';
 import { level7, level7Cards } from './level7';
 import { level8, level8Cards } from './level8';
+import { level9, level9Cards } from './level9';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -39,16 +40,7 @@ export const LEVELS: LevelDefinition[] = [
   level6,
   level7,
   level8,
-  upcoming(
-    'l9',
-    9,
-    '9',
-    'Les protocoles : MCP et A2A',
-    'Protocoles',
-    'MCP pour relier un agent à ses outils, A2A pour faire dialoguer des agents (Agent Cards).',
-    'archipel',
-    'protocol-antenna',
-  ),
+  level9,
   upcoming(
     'l10',
     10,
@@ -103,7 +95,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards, ...level8Cards, ...level9Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

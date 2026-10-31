@@ -755,6 +755,49 @@ export const ICONS: Record<string, Sprite> = {
     '...xx.......',
   ]),
 
+  plug: ui([
+    '...x....x...',
+    '...x....x...',
+    '...x....x...',
+    '.xxxxxxxxxx.',
+    '.x........x.',
+    '.x........x.',
+    '..x......x..',
+    '...xxxxxx...',
+    '.....xx.....',
+    '.....xx.....',
+    '.....xx.....',
+    '.....xx.....',
+  ]),
+  exchange: ui([
+    '........x...',
+    '........xx..',
+    'xxxxxxxxxxx.',
+    '........xx..',
+    '........x...',
+    '............',
+    '............',
+    '...x........',
+    '..xx........',
+    '.xxxxxxxxxxx',
+    '..xx........',
+    '...x........',
+  ]),
+  idcard: ui([
+    '............',
+    'xxxxxxxxxxxx',
+    'x..........x',
+    'x.xxx.xxxx.x',
+    'x.xxx......x',
+    'x.xxx.xxx..x',
+    'x..........x',
+    'x.xxxxxxxx.x',
+    'x..........x',
+    'xxxxxxxxxxxx',
+    '............',
+    '............',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -849,6 +892,9 @@ const CARD_TINTS: Record<string, [string, string]> = {
   orchestrator: ['hub', 'y'],
   subagent: ['drone', 'c'],
   swarm: ['dots', 'l'],
+  mcp: ['plug', 'c'],
+  a2a: ['exchange', 'o'],
+  'agent-card': ['idcard', 'y'],
 };
 for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
   const sprite = ICONS[base];
