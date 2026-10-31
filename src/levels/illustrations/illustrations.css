@@ -396,3 +396,9 @@
 .ill-bars__fill--model {
   background: var(--coral);
 }
+.ill-bars__fill--user {
+  background: var(--cyan);
+}
+.ill-bars__fill--note {
+  background: var(--steel);
+}

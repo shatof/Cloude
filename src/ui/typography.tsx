@@ -67,7 +67,10 @@ export function inline(text: string, keyPrefix = 'i'): ReactNode[] {
 
 /** Texte court sur une ligne (titres, libellés). */
 export function T({ children }: { children: string }) {
-  return <>{inline(children)}</>;
+  const nodes = inline(children);
+  // Plusieurs morceaux (gras, code, flèche…) : une seule boîte en ligne. Sinon, un parent
+  // en grid ou en flex les répartirait dans des cellules différentes (un par ligne).
+  return nodes.length > 1 ? <span className="t-inline">{nodes}</span> : <>{nodes}</>;
 }
 
 /** Bloc de texte enrichi : paragraphes et listes. */

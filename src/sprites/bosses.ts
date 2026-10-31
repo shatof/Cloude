@@ -219,6 +219,29 @@ function poisson(): Sprite {
   return g.toSprite();
 }
 
+function entasseur(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Ce qui déborde de la valise
+  g.rect(5, 3, 8, 10, 'w').hline(6, 11, 5, 'i').hline(6, 10, 7, 'i').hline(6, 11, 9, 'i');
+  g.rect(13, 1, 5, 12, 'b').vline(14, 2, 11, 's');
+  g.stamp(['.ii.', 'i..i', '.ii.', '..i.', '..i.', '..i.', '..i.'], 19, 2);
+  g.stamp(['.lll', '.lll', '.lll', 'llll', 'lll.'], 23, 7);
+  g.rect(2, 9, 4, 3, 'c');
+  // Valise
+  g.bevelBox(3, 11, 26, 17, { fill: 'o', hi: 'y', lo: 'r', r: 2 });
+  g.vline(9, 12, 26, 'p').vline(22, 12, 26, 'p');
+  for (let x = 5; x < 27; x += 2) g.set(x, 13, 'y');
+  // Visage crispé
+  g.stamp(['k..', '.k.', 'k..'], 11, 16).stamp(['..k', '.k.', '..k'], 18, 16);
+  g.bevelBox(11, 20, 10, 5, { fill: 'w', r: 1 });
+  g.vline(14, 21, 23, 'k').vline(17, 21, 23, 'k').hline(12, 19, 22, 'k');
+  // Roulettes et goutte de sueur
+  g.rect(6, 28, 3, 3, 'm').rect(23, 28, 3, 3, 'm');
+  g.stamp(['.c.', 'ccc', '.c.'], 28, 15);
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
@@ -226,4 +249,5 @@ export const BOSS_SPRITES: Record<string, Sprite> = {
   reflexe: reflexe(),
   disperse: disperse(),
   poisson: poisson(),
+  entasseur: entasseur(),
 };

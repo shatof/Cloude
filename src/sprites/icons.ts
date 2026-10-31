@@ -612,6 +612,49 @@ export const ICONS: Record<string, Sprite> = {
     '............',
   ]),
 
+  suitcase: ui([
+    '....xxxx....',
+    '....x..x....',
+    'xxxxxxxxxxxx',
+    'x..x....x..x',
+    'x..x....x..x',
+    'x..x....x..x',
+    'xxxxxxxxxxxx',
+    'x..x....x..x',
+    'x..x....x..x',
+    'x..x....x..x',
+    'xxxxxxxxxxxx',
+    '.xx......xx.',
+  ]),
+  cartridge: ui([
+    '..xxxxxxxx..',
+    '.x........x.',
+    '.x.xxxxxx.x.',
+    '.x.x....x.x.',
+    '.x.x....x.x.',
+    '.x.xxxxxx.x.',
+    '.x........x.',
+    '.x..xxxx..x.',
+    '.x........x.',
+    '.xxxxxxxxxx.',
+    '..x.x..x.x..',
+    '............',
+  ]),
+  decline: ui([
+    '............',
+    'xx..........',
+    'xx..........',
+    'xx.xx.......',
+    'xx.xx.......',
+    'xx.xx.xx....',
+    'xx.xx.xx....',
+    'xx.xx.xx.xx.',
+    'xx.xx.xx.xx.',
+    'xx.xx.xx.xx.',
+    'xxxxxxxxxxxx',
+    '............',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -696,6 +739,9 @@ const CARD_TINTS: Record<string, [string, string]> = {
   'long-term-memory': ['notebook', 'y'],
   rag: ['book', 'c'],
   'prompt-caching': ['database', 'l'],
+  'context-engineering': ['suitcase', 'y'],
+  skill: ['cartridge', 'c'],
+  'context-rot': ['decline', 'o'],
 };
 for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
   const sprite = ICONS[base];
