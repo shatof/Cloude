@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { configuredMiniGame } from './kit/rounds';
+import { librarianConfig } from './librarian/config';
 import { LoopRunner } from './loopRunner/LoopRunner';
 import { projectLeadConfig } from './projectLead/config';
 import { scratchpadConfig } from './scratchpad/config';
@@ -18,4 +19,5 @@ export const MINIGAMES: Record<string, ComponentType<MiniGameProps>> = {
   'tool-workshop': configuredMiniGame(toolWorkshopConfig),
   scratchpad: configuredMiniGame(scratchpadConfig),
   'project-lead': configuredMiniGame(projectLeadConfig),
+  librarian: configuredMiniGame(librarianConfig),
 };

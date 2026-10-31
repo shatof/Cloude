@@ -12,6 +12,7 @@ import { T } from '../../ui/typography';
 import { LEVEL2_ILLUSTRATIONS } from './level2';
 import { LEVEL3_ILLUSTRATIONS } from './level3';
 import { LEVEL4_ILLUSTRATIONS } from './level4';
+import { LEVEL5_ILLUSTRATIONS } from './level5';
 import './illustrations.css';
 
 const CHIP_COLORS = ['tok-a', 'tok-b', 'tok-c', 'tok-d', 'tok-e'];
@@ -261,6 +262,7 @@ export const ILLUSTRATIONS: Record<string, ComponentType> = {
   ...LEVEL2_ILLUSTRATIONS,
   ...LEVEL3_ILLUSTRATIONS,
   ...LEVEL4_ILLUSTRATIONS,
+  ...LEVEL5_ILLUSTRATIONS,
   tokenizer: TokenizerIllustration,
   'next-token': NextTokenIllustration,
   'context-window': ContextWindowIllustration,

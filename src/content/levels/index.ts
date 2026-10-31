@@ -4,6 +4,7 @@ import { level1, level1Cards } from './level1';
 import { level2, level2Cards } from './level2';
 import { level3, level3Cards } from './level3';
 import { level4, level4Cards } from './level4';
+import { level5, level5Cards } from './level5';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -31,16 +32,7 @@ export const LEVELS: LevelDefinition[] = [
   level2,
   level3,
   level4,
-  upcoming(
-    'l5',
-    5,
-    '5',
-    'La mémoire',
-    'Mémoire',
-    'Mémoire court terme et long terme, RAG, mémoire sur fichiers et caching.',
-    'bibliotheque',
-    'memory-pack',
-  ),
+  level5,
   upcoming(
     'l6',
     6,
@@ -135,7 +127,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

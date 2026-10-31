@@ -583,6 +583,35 @@ export const ICONS: Record<string, Sprite> = {
     '..xx........',
   ]),
 
+  notebook: ui([
+    '.x.x.x.x.x..',
+    'xxxxxxxxxxx.',
+    'x.........x.',
+    'x.xxxxxxx.x.',
+    'x.........x.',
+    'x.xxxxxxx.x.',
+    'x.........x.',
+    'x.xxxxx...x.',
+    'x.........x.',
+    'x.........x.',
+    'xxxxxxxxxxx.',
+    '............',
+  ]),
+  database: ui([
+    '...xxxxxx...',
+    '.xx......xx.',
+    '.x........x.',
+    '.xxx....xxx.',
+    '.x.xxxxxx.x.',
+    '.x........x.',
+    '.xxx....xxx.',
+    '.x.xxxxxx.x.',
+    '.x........x.',
+    '.xxx....xxx.',
+    '...xxxxxx...',
+    '............',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -664,6 +693,9 @@ const CARD_TINTS: Record<string, [string, string]> = {
   'task-decomposition': ['split', 'l'],
   'todo-plan': ['checklist', 'c'],
   replanning: ['detour', 'o'],
+  'long-term-memory': ['notebook', 'y'],
+  rag: ['book', 'c'],
+  'prompt-caching': ['database', 'l'],
 };
 for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
   const sprite = ICONS[base];

@@ -176,10 +176,54 @@ function disperse(): Sprite {
   return g.toSprite();
 }
 
+function poisson(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Queue et nageoires
+  fillPolygon(
+    g,
+    [
+      [1, 9],
+      [10, 15],
+      [10, 19],
+      [1, 25],
+      [4, 17],
+    ],
+    'r',
+  );
+  fillPolygon(
+    g,
+    [
+      [11, 10],
+      [17, 5],
+      [22, 9],
+    ],
+    'r',
+  );
+  g.rect(14, 24, 4, 3, 'r');
+  // Corps et ventre
+  g.disc(17.5, 17, 9, 'o');
+  g.disc(18, 21, 5, 'y');
+  g.disc(17.5, 17, 9, 'o');
+  g.rect(13, 20, 9, 3, 'y').rect(15, 23, 5, 1, 'y');
+  // Écailles
+  g.stamp(['r.r', '.r.'], 12, 14).stamp(['r.r', '.r.'], 15, 11);
+  // Grand œil perdu
+  g.disc(21.5, 14, 3.6, 'w');
+  g.rect(20, 14, 2, 2, 'k').set(20, 14, 'w');
+  // Bouche en « o »
+  g.stamp(['.k.', 'k.k', '.k.'], 25, 17);
+  // Bulles et point d'interrogation
+  g.ring(28, 8, 2.5, 1, 'c').ring(25, 3, 1.6, 1, 'c');
+  g.stamp(['.sss.', 's...s', '...s.', '..s..', '.....', '..s..'], 3, 1);
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
   marteau: marteau(),
   reflexe: reflexe(),
   disperse: disperse(),
+  poisson: poisson(),
 };
