@@ -242,6 +242,32 @@ function entasseur(): Sprite {
   return g.toSprite();
 }
 
+function bulldozer(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Fumée et pot d'échappement
+  g.disc(25.5, 3, 2.2, 'i').disc(29, 1.5, 1.5, 'i');
+  g.rect(22, 4, 2, 6, 'm');
+  // Cabine et moteur
+  g.bevelBox(11, 8, 17, 14, { fill: 'y', hi: 'w', lo: 'o', r: 2 });
+  // Pare-brise et regard furieux
+  g.bevelBox(13, 10, 11, 6, { fill: 's', lo: 'b', r: 1 });
+  g.stamp(['kkk..', '..kk.'], 14, 11).stamp(['..kkk', '.kk..'], 18, 11);
+  g.rect(15, 13, 2, 2, 'k').rect(20, 13, 2, 2, 'k');
+  // Dents serrées
+  g.stamp(['kkkkkkkkk', 'kwkwkwkwk', 'kkkkkkkkk'], 14, 17);
+  // Lame et bras
+  g.bevelBox(1, 10, 6, 16, { fill: 'i', hi: 'w', lo: 'm', r: 1 });
+  g.rect(7, 14, 4, 2, 'm').rect(7, 20, 4, 2, 'm');
+  // Chenilles
+  g.bevelBox(8, 22, 22, 8, { fill: 'd', lo: 'k', r: 3 });
+  g.disc(12.5, 26, 2.2, 'm').disc(19, 26, 2.2, 'm').disc(25.5, 26, 2.2, 'm');
+  g.set(12, 25, 'i').set(18, 25, 'i').set(25, 25, 'i');
+  // Débris poussés
+  g.stamp(['.oo', 'ooo'], 0, 28).rect(4, 27, 3, 3, 'w').set(5, 28, 'i');
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
@@ -250,4 +276,5 @@ export const BOSS_SPRITES: Record<string, Sprite> = {
   disperse: disperse(),
   poisson: poisson(),
   entasseur: entasseur(),
+  bulldozer: bulldozer(),
 };

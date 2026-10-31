@@ -6,6 +6,7 @@ import { level3, level3Cards } from './level3';
 import { level4, level4Cards } from './level4';
 import { level5, level5Cards } from './level5';
 import { level6, level6Cards } from './level6';
+import { level7, level7Cards } from './level7';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -35,16 +36,7 @@ export const LEVELS: LevelDefinition[] = [
   level4,
   level5,
   level6,
-  upcoming(
-    'l7',
-    7,
-    '7',
-    'Harness engineering',
-    'Harnais',
-    'Boucle, conditions d’arrêt, compaction, permissions, sandbox, hooks, vérification. Atelier de montage : même modèle, autre harnais.',
-    'forge',
-    'harness-frame',
-  ),
+  level7,
   upcoming(
     'l8',
     8,
@@ -119,7 +111,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards, ...level5Cards, ...level6Cards, ...level7Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

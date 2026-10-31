@@ -14,6 +14,7 @@ import { LEVEL3_ILLUSTRATIONS } from './level3';
 import { LEVEL4_ILLUSTRATIONS } from './level4';
 import { LEVEL5_ILLUSTRATIONS } from './level5';
 import { LEVEL6_ILLUSTRATIONS } from './level6';
+import { LEVEL7_ILLUSTRATIONS } from './level7';
 import './illustrations.css';
 
 const CHIP_COLORS = ['tok-a', 'tok-b', 'tok-c', 'tok-d', 'tok-e'];
@@ -265,6 +266,7 @@ export const ILLUSTRATIONS: Record<string, ComponentType> = {
   ...LEVEL4_ILLUSTRATIONS,
   ...LEVEL5_ILLUSTRATIONS,
   ...LEVEL6_ILLUSTRATIONS,
+  ...LEVEL7_ILLUSTRATIONS,
   tokenizer: TokenizerIllustration,
   'next-token': NextTokenIllustration,
   'context-window': ContextWindowIllustration,

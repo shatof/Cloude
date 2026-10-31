@@ -1007,3 +1007,201 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Atelier de montage (niveau 7)                                       */
+/* ------------------------------------------------------------------ */
+
+.assembly {
+  display: grid;
+  grid-template-columns: minmax(280px, 5fr) 7fr;
+  gap: var(--gap);
+  align-items: start;
+}
+
+.assembly__title {
+  margin: 0 0 10px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--gold);
+}
+
+.assembly__bench,
+.assembly__results {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.assembly__pieces {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assembly__piece {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  background: var(--surface);
+  color: var(--paper);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.assembly__piece:hover {
+  box-shadow: inset 0 0 0 2px var(--slate);
+}
+
+.assembly__piece--on {
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+.assembly__switch {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  background: var(--night);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--slate);
+}
+
+.assembly__piece--on .assembly__switch {
+  background: var(--gold);
+  box-shadow: inset 0 -3px 0 0 var(--coral);
+}
+
+.assembly__piece-text {
+  display: grid;
+  gap: 2px;
+}
+
+.assembly__piece-text small {
+  color: var(--steel);
+  font-size: 0.82rem;
+}
+
+.assembly__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+
+.assembly__metrics > div {
+  padding: 8px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.assembly__metrics dt {
+  color: var(--steel);
+  font-size: 0.8rem;
+}
+
+.assembly__metrics dd {
+  margin: 2px 0 0;
+  font-family: var(--font-data);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.assembly__metric--good dd {
+  color: var(--lime);
+}
+
+.assembly__metric--bad dd {
+  color: var(--coral);
+}
+
+.assembly__cells {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assembly__cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  color: var(--ink);
+}
+
+.assembly__cell--ok {
+  background: var(--lime);
+}
+
+.assembly__cell--fail {
+  background: var(--slate);
+  color: var(--paper);
+}
+
+.assembly__cell--incident {
+  background: var(--coral);
+}
+
+.assembly__log {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assembly__log li {
+  display: grid;
+  gap: 2px;
+  padding: 6px 10px;
+  background: var(--surface);
+  box-shadow: inset 3px 0 0 0 var(--slate);
+}
+
+.assembly__log li.assembly__log--incident {
+  box-shadow: inset 3px 0 0 0 var(--coral);
+}
+
+.assembly__log b {
+  color: var(--gold);
+  font-size: 0.86rem;
+}
+
+.assembly__history {
+  width: 100%;
+  margin-top: var(--gap);
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.assembly__history caption {
+  margin-bottom: 6px;
+  color: var(--steel);
+  text-align: left;
+}
+
+.assembly__history th,
+.assembly__history td {
+  padding: 4px 8px;
+  text-align: left;
+  border-bottom: 2px solid var(--night);
+}
+
+.assembly__history td:not(:first-child),
+.assembly__history th:not(:first-child) {
+  font-family: var(--font-data);
+  font-size: 1.15rem;
+  text-align: right;
+}

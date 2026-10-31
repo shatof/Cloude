@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import { assemblyConfig } from './assembly/config';
 import { contextSuitcaseConfig } from './contextSuitcase/config';
 import { configuredMiniGame } from './kit/rounds';
 import { librarianConfig } from './librarian/config';
@@ -22,4 +23,5 @@ export const MINIGAMES: Record<string, ComponentType<MiniGameProps>> = {
   'project-lead': configuredMiniGame(projectLeadConfig),
   librarian: configuredMiniGame(librarianConfig),
   'context-suitcase': configuredMiniGame(contextSuitcaseConfig),
+  'assembly-workshop': configuredMiniGame(assemblyConfig),
 };
