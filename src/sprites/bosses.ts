@@ -148,9 +148,38 @@ function reflexe(): Sprite {
   return g.toSprite();
 }
 
+function disperse(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Post-it empilés dans tous les sens
+  g.bevelBox(2, 3, 13, 13, { fill: 'o', lo: 'r', r: 0 });
+  g.bevelBox(18, 2, 12, 12, { fill: 'c', lo: 's', r: 0 });
+  g.bevelBox(1, 16, 11, 11, { fill: 'l', lo: 'g', r: 0 });
+  g.bevelBox(21, 15, 10, 10, { fill: 'w', lo: 'i', r: 0 });
+  g.hline(4, 11, 6, 'r').hline(4, 9, 8, 'r');
+  g.hline(20, 27, 5, 's').hline(20, 25, 7, 's');
+  g.hline(3, 9, 19, 'g');
+  // Post-it principal, coin corné
+  g.bevelBox(8, 7, 17, 17, { fill: 'y', lo: 'o', r: 0 });
+  g.stamp(['....k', '...kk', '..kok', '.kook', 'kkkkk'], 20, 19);
+  g.clear(23, 20, 2, 4).clear(22, 22, 1, 2).clear(21, 23, 1, 1);
+  // Yeux qui regardent chacun ailleurs
+  g.rect(11, 10, 4, 4, 'w').rect(11, 10, 2, 2, 'k');
+  g.rect(17, 10, 4, 4, 'w').rect(19, 12, 2, 2, 'k');
+  // Bouche hésitante
+  g.stamp(['.k...k.', 'k.k.k.k'], 12, 16);
+  // Jambes
+  g.rect(12, 24, 2, 4, 'm').rect(18, 24, 2, 4, 'm');
+  g.rect(10, 28, 4, 2, 'm').rect(18, 28, 4, 2, 'm');
+  // Notes qui s'envolent
+  g.rect(28, 27, 3, 3, 'o').rect(14, 0, 3, 2, 'l').rect(0, 29, 3, 2, 'c');
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
   marteau: marteau(),
   reflexe: reflexe(),
+  disperse: disperse(),
 };

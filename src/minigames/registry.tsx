@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import { configuredMiniGame } from './kit/rounds';
 import { LoopRunner } from './loopRunner/LoopRunner';
+import { projectLeadConfig } from './projectLead/config';
 import { scratchpadConfig } from './scratchpad/config';
 import type { MiniGameProps } from './shared';
 import { TokenWorkshop } from './tokenWorkshop/TokenWorkshop';
@@ -16,4 +17,5 @@ export const MINIGAMES: Record<string, ComponentType<MiniGameProps>> = {
   'loop-runner': LoopRunner,
   'tool-workshop': configuredMiniGame(toolWorkshopConfig),
   scratchpad: configuredMiniGame(scratchpadConfig),
+  'project-lead': configuredMiniGame(projectLeadConfig),
 };

@@ -3,6 +3,7 @@ import { level0, level0Cards } from './level0';
 import { level1, level1Cards } from './level1';
 import { level2, level2Cards } from './level2';
 import { level3, level3Cards } from './level3';
+import { level4, level4Cards } from './level4';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -29,16 +30,7 @@ export const LEVELS: LevelDefinition[] = [
   level1,
   level2,
   level3,
-  upcoming(
-    'l4',
-    4,
-    '4',
-    'Planifier et décomposer',
-    'Planifier',
-    'Découper une mission en sous-tâches ordonnées, puis ajuster le plan en route.',
-    'atelier',
-    'plan-board',
-  ),
+  level4,
   upcoming(
     'l5',
     5,
@@ -143,7 +135,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards, ...level4Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

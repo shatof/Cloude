@@ -540,6 +540,49 @@ export const ICONS: Record<string, Sprite> = {
     '............',
   ]),
 
+  split: ui([
+    '............',
+    '...xxxxxx...',
+    '...xxxxxx...',
+    '.....xx.....',
+    '.....xx.....',
+    '.xxxxxxxxxx.',
+    '.x...xx...x.',
+    '.x...xx...x.',
+    'xxx.xxxx.xxx',
+    'xxx.xxxx.xxx',
+    'xxx.xxxx.xxx',
+    '............',
+  ]),
+  checklist: ui([
+    '............',
+    'xxx.........',
+    'xxx.xxxxxxxx',
+    'xxx.........',
+    '............',
+    'xxx.........',
+    'xxx.xxxxxx..',
+    'xxx.........',
+    '............',
+    'xxx.........',
+    'x.x.xxxxxxx.',
+    'xxx.........',
+  ]),
+  detour: ui([
+    '.........xx.',
+    '........xxxx',
+    'xxxxxx...xx.',
+    'xxxxxx...xx.',
+    '.........xx.',
+    '..xx.....xx.',
+    '..xxxxxxxxx.',
+    '..xxxxxxxxx.',
+    '..xx........',
+    '..xx........',
+    '..xx........',
+    '..xx........',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -618,6 +661,9 @@ const CARD_TINTS: Record<string, [string, string]> = {
   'chain-of-thought': ['thought', 's'],
   react: ['magnifier', 'o'],
   'test-time-compute': ['stopwatch', 'y'],
+  'task-decomposition': ['split', 'l'],
+  'todo-plan': ['checklist', 'c'],
+  replanning: ['detour', 'o'],
 };
 for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
   const sprite = ICONS[base];
