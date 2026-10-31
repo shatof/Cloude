@@ -28,20 +28,39 @@ npm run build
 
 Le dossier `dist/` produit par le build est un site statique : il peut être servi depuis n'importe quel hébergement, y compris un sous-dossier (GitHub Pages…). Aucun serveur n'est nécessaire.
 
-## Ce que contient cette première étape
+## Ce que contient le jeu
 
 | Élément | État |
 |---|---|
 | Accueil : Bob, son cerveau verrouillé et sa fiche d'équipement (14 emplacements) | ✅ |
 | Carte des niveaux avec progression et XP | ✅ |
 | Système d'XP et de rangs | ✅ |
-| Collection de cartes de glossaire | ✅ |
+| Collection de cartes de glossaire (43 cartes) | ✅ |
 | Mode révision : flashcards générées depuis les cartes (boîtes de Leitner) + défi éclair | ✅ |
 | Sauvegarde dans le navigateur, export / import / réinitialisation | ✅ |
-| Niveau 0 « Qu'est-ce qu'un LLM ? » (complet) | ✅ |
-| Niveau 1 « Du chatbot à l'agent » (complet) | ✅ |
-| Niveaux 2 à 12 et boss final : titre, concept et récompense affichés | contenu à venir |
-| Couche « IA réelle » optionnelle (tuteur, juge du boss final, labo d'injection) | ✅ avec réponses prédéfinies |
+| **Les 14 niveaux, du token à l'architecte** (0 à 12 + boss final) | ✅ complets |
+| Couche « IA réelle » optionnelle (tuteur, juge du boss final, labo d'injection) | ✅ modèle Mistral ou Anthropic, avec repli prédéfini |
+
+### Le parcours
+
+Du cerveau au harnais complet, chaque niveau débloque une pièce :
+
+| # | Niveau | Pièce de harnais |
+|---|---|---|
+| 0 | Qu'est-ce qu'un LLM ? | Jauge de contexte |
+| 1 | Du chatbot à l'agent | Moteur de boucle |
+| 2 | Les outils (tool use) | Ceinture à outils |
+| 3 | Le raisonnement | Sablier de réflexion |
+| 4 | Planifier et décomposer | Carnet de plan |
+| 5 | La mémoire | Sac à mémoire |
+| 6 | Context engineering et skills | Cartouches de skills |
+| 7 | Harness engineering | Armature de harnais |
+| 8 | Multi-agents | Baie à drones |
+| 9 | Les protocoles : MCP et A2A | Antenne protocoles |
+| 10 | Long horizon et évaluation | Badge d'évaluation |
+| 11 | Sécurité des agents | Bouclier anti-injection |
+| 12 | Gouvernance et frontière | Arrêt d'urgence |
+| F | Boss final : l'architecte | Cape d'architecte |
 
 ### Le format d'un niveau
 
@@ -49,7 +68,7 @@ Chaque niveau suit les mêmes 5 phases :
 
 1. **Problème** : Bob échoue à une tâche concrète.
 2. **Concept** : le concept qui résout ce problème, en 3 écrans maximum, une analogie par concept, avec une illustration interactive.
-3. **Mini-jeu** : on manipule le concept (3 manches).
+3. **Mini-jeu** : on manipule le concept (en général 3 manches). Certains niveaux ont un atelier sur mesure : l'atelier de montage du harnais (niveau 7), le bac à sable d'injection (niveau 11), l'épreuve d'architecte (boss final).
 4. **Boss** : un quiz où chaque réponse, juste ou fausse, est expliquée.
 5. **Récompense** : une pièce de harnais fixée sur Bob, des cartes de glossaire et de l'XP.
 
@@ -60,7 +79,7 @@ Rejouer une phase ne rapporte que l'amélioration par rapport à son meilleur sc
 ```
 src/
   content/        Contenu pédagogique typé (niveaux, cartes, tuteur hors-ligne)
-    levels/       level0.ts, level1.ts, index.ts (registre + niveaux à venir)
+    levels/       level0.ts … level12.ts, levelFinal.ts, index.ts (registre)
   game/           Cœur déterministe : état, XP, sauvegarde, révision, harnais
   levels/         Lecteur de niveau (5 phases) et illustrations des concepts
   minigames/      Mini-jeux (registre + un dossier par jeu)
@@ -71,7 +90,7 @@ src/
 ```
 
 - **Cœur entièrement simulé et déterministe** : aucun `Math.random()` dans ce qui touche au score ; les mélanges utilisent un générateur à graine.
-- **Pixel art en code** : chaque sprite est une grille de couleurs de la palette Sweetie 16, rendue en SVG net à toute taille. Chaque pièce de harnais est un calque superposé à Bob. La route cachée `#/atelier-sprites` affiche tous les sprites (pratique pour dessiner ceux des prochains niveaux).
+- **Pixel art en code** : chaque sprite est une grille de couleurs de la palette Sweetie 16, rendue en SVG net à toute taille. Chaque pièce de harnais est un calque superposé à Bob. La route cachée `#/atelier-sprites` affiche tous les sprites (Bob, les 14 boss, les icônes).
 - **Aucune dépendance réseau** : polices embarquées, aucune requête externe tant qu'aucun modèle n'est connecté.
 
 ## La couche « IA réelle » (optionnelle)

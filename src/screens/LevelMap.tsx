@@ -158,6 +158,7 @@ export function LevelMap({ selectedId }: { selectedId?: string }) {
   const fullPath = pathThrough(NODE_POS);
   const donePath = pathThrough(NODE_POS.slice(0, Math.max(1, current.order + 1)));
   const [bobX, bobY] = NODE_POS[current.order] ?? NODE_POS[0]!;
+  const hasUpcoming = LEVELS.some((l) => levelStatus(save, l) === 'coming-soon');
 
   return (
     <div className="map-screen">
@@ -241,9 +242,11 @@ export function LevelMap({ selectedId }: { selectedId?: string }) {
             <li>
               <Icon name="lock" size={12} /> Verrouillé
             </li>
-            <li>
-              <Icon name="hammer" size={12} /> Contenu à venir
-            </li>
+            {hasUpcoming ? (
+              <li>
+                <Icon name="hammer" size={12} /> Contenu à venir
+              </li>
+            ) : null}
             <li className="muted">Double-clic sur un niveau pour le lancer.</li>
           </ul>
         </div>
