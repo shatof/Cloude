@@ -1,0 +1,85 @@
+.collection__count {
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.collection__count b {
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.collection__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+.binder {
+  display: grid;
+  gap: 18px;
+}
+
+.binder__page {
+  display: grid;
+  gap: 14px;
+  padding: 16px 18px 20px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.binder__page h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.65rem;
+}
+
+.binder__badge {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: var(--night);
+  color: var(--gold);
+  font-size: 0.6rem;
+}
+
+.binder__cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.binder__soon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--steel);
+  font-size: 0.9rem;
+}
+
+.collection__detail {
+  position: sticky;
+  top: 96px;
+  padding: 22px 20px;
+}
+
+.collection__empty {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+  color: var(--steel);
+}
+
+@media (max-width: 1080px) {
+  .collection__layout {
+    grid-template-columns: 1fr;
+  }
+  .collection__detail {
+    position: static;
+  }
+}

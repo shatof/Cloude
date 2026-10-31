@@ -1,0 +1,955 @@
+/* ==========================================================================
+   GitGudAI — système visuel rétro pixel
+   Palette Sweetie 16, cadres crantés, polices pixel lisibles.
+   ========================================================================== */
+
+:root {
+  --ink: #1a1c2c;
+  --night: #333c57;
+  --slate: #566c86;
+  --steel: #94b0c2;
+  --paper: #f4f4f4;
+  --navy: #29366f;
+  --blue: #3b5dc9;
+  --sky: #41a6f6;
+  --cyan: #73eff7;
+  --plum: #5d275d;
+  --raspberry: #b13e53;
+  --coral: #ef7d57;
+  --gold: #ffcd75;
+  --lime: #a7f070;
+  --green: #38b764;
+  --teal: #257179;
+
+  /* Surfaces */
+  --bg: var(--ink);
+  --surface: #232a40;
+  --surface-2: var(--night);
+  --frame: var(--slate);
+  --text: var(--paper);
+  --text-muted: var(--steel);
+  --accent: var(--gold);
+  --focus: var(--cyan);
+
+  /* Un « pixel » d'interface */
+  --px: 4px;
+  --gap: 16px;
+
+  --font-display: 'Press Start 2P', ui-monospace, monospace;
+  --font-body: 'Pixelify Sans', system-ui, sans-serif;
+  --font-data: 'VT323', ui-monospace, monospace;
+  --text-scale: 1;
+
+  color-scheme: dark;
+}
+
+:root.readable {
+  --font-display: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: calc(18px * var(--text-scale));
+  -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--slate) var(--ink);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  caret-color: var(--gold);
+  /* La ligature « fi » de Pixelify Sans est cassée : on désactive toutes les ligatures. */
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'clig' 0, 'dlig' 0;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+:root.readable body {
+  -webkit-font-smoothing: auto;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--slate);
+  border: 4px solid var(--ink);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--steel);
+}
+
+img,
+svg {
+  display: block;
+}
+
+svg.icon,
+.bob-sprite {
+  image-rendering: pixelated;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.45;
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: 0;
+}
+
+:root.readable h1,
+:root.readable h2,
+:root.readable h3,
+:root.readable h4 {
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+h1 {
+  font-size: 1.25rem;
+}
+h2 {
+  font-size: 0.95rem;
+}
+h3 {
+  font-size: 0.75rem;
+}
+
+:root.readable h1 {
+  font-size: 1.75rem;
+}
+:root.readable h2 {
+  font-size: 1.3rem;
+}
+:root.readable h3 {
+  font-size: 1.05rem;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--cyan);
+  text-underline-offset: 3px;
+}
+
+code,
+kbd,
+.data {
+  font-family: var(--font-data);
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+code {
+  color: var(--lime);
+  background: rgba(26, 28, 44, 0.6);
+  padding: 0 0.25em;
+}
+
+strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+em {
+  font-style: normal;
+  color: var(--cyan);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'clig' 0;
+}
+
+:focus-visible {
+  outline: var(--px) solid var(--focus);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 100;
+  background: var(--gold);
+  color: var(--ink);
+  padding: 8px 12px;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   Cadres pixel : bordure crantée (coins absents), relief intérieur
+   -------------------------------------------------------------------------- */
+
+.frame {
+  --frame-color: var(--frame);
+  position: relative;
+  background: var(--surface);
+  margin: var(--px);
+  box-shadow:
+    calc(var(--px) * -1) 0 0 0 var(--frame-color),
+    var(--px) 0 0 0 var(--frame-color),
+    0 calc(var(--px) * -1) 0 0 var(--frame-color),
+    0 var(--px) 0 0 var(--frame-color),
+    inset 0 var(--px) 0 0 rgba(244, 244, 244, 0.06),
+    inset 0 calc(var(--px) * -1) 0 0 rgba(26, 28, 44, 0.5);
+}
+
+.frame--raised {
+  background: var(--surface-2);
+}
+.frame--gold {
+  --frame-color: var(--gold);
+}
+.frame--cyan {
+  --frame-color: var(--cyan);
+}
+.frame--lime {
+  --frame-color: var(--lime);
+}
+.frame--coral {
+  --frame-color: var(--coral);
+}
+.frame--dim {
+  --frame-color: var(--night);
+}
+
+.panel {
+  padding: calc(var(--px) * 5);
+}
+
+/* --------------------------------------------------------------------------
+   Boutons
+   -------------------------------------------------------------------------- */
+
+.btn {
+  --btn-bg: var(--gold);
+  --btn-fg: var(--ink);
+  --btn-lip: var(--coral);
+  --btn-edge: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  margin: var(--px);
+  padding: 10px 18px 12px;
+  border: 0;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  box-shadow:
+    calc(var(--px) * -1) 0 0 0 var(--btn-edge),
+    var(--px) 0 0 0 var(--btn-edge),
+    0 calc(var(--px) * -1) 0 0 var(--btn-edge),
+    0 var(--px) 0 0 var(--btn-edge),
+    inset 0 calc(var(--px) * -1) 0 0 var(--btn-lip),
+    inset 0 var(--px) 0 0 rgba(244, 244, 244, 0.35);
+  transition: transform 80ms steps(2), filter 80ms steps(2);
+}
+
+:root.readable .btn {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.btn:hover {
+  filter: brightness(1.12);
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    calc(var(--px) * -1) 0 0 0 var(--btn-edge),
+    var(--px) 0 0 0 var(--btn-edge),
+    0 calc(var(--px) * -1) 0 0 var(--btn-edge),
+    0 var(--px) 0 0 var(--btn-edge),
+    inset 0 2px 0 0 rgba(26, 28, 44, 0.25);
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  --btn-bg: var(--night);
+  --btn-fg: var(--slate);
+  --btn-lip: var(--ink);
+  cursor: not-allowed;
+  filter: none;
+  transform: none;
+}
+
+.btn--secondary {
+  --btn-bg: var(--slate);
+  --btn-fg: var(--paper);
+  --btn-lip: var(--night);
+}
+
+.btn--cyan {
+  --btn-bg: var(--cyan);
+  --btn-fg: var(--ink);
+  --btn-lip: var(--sky);
+}
+
+.btn--lime {
+  --btn-bg: var(--lime);
+  --btn-fg: var(--ink);
+  --btn-lip: var(--green);
+}
+
+.btn--danger {
+  --btn-bg: var(--raspberry);
+  --btn-fg: var(--paper);
+  --btn-lip: var(--plum);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--steel);
+  --btn-edge: transparent;
+  box-shadow: none;
+}
+.btn--ghost:hover {
+  --btn-fg: var(--paper);
+  filter: none;
+}
+
+.btn--small {
+  min-height: 36px;
+  padding: 6px 12px 8px;
+  font-size: 0.5rem;
+}
+:root.readable .btn--small {
+  font-size: 0.8rem;
+}
+
+.btn--block {
+  width: calc(100% - var(--px) * 2);
+}
+
+.btn .icon {
+  flex: none;
+}
+
+/* Bouton-icône carré (barre du haut, fermeture…) */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--steel);
+  cursor: pointer;
+}
+.icon-btn:hover {
+  color: var(--paper);
+  background: rgba(148, 176, 194, 0.1);
+}
+
+/* --------------------------------------------------------------------------
+   Barres (XP, progression, PV)
+   -------------------------------------------------------------------------- */
+
+.bar {
+  --bar-fill: var(--lime);
+  --bar-empty: var(--ink);
+  position: relative;
+  height: 16px;
+  margin: var(--px);
+  background: var(--bar-empty);
+  box-shadow:
+    calc(var(--px) * -1) 0 0 0 var(--slate),
+    var(--px) 0 0 0 var(--slate),
+    0 calc(var(--px) * -1) 0 0 var(--slate),
+    0 var(--px) 0 0 var(--slate);
+}
+
+.bar__fill {
+  height: 100%;
+  width: 0;
+  background: var(--bar-fill);
+  box-shadow: inset 0 calc(var(--px) * -1) 0 0 rgba(26, 28, 44, 0.25), inset 0 var(--px) 0 0 rgba(244, 244, 244, 0.35);
+  transition: width 400ms steps(8);
+}
+
+.bar--xp {
+  --bar-fill: var(--gold);
+  height: 12px;
+}
+
+.bar--hp {
+  --bar-fill: var(--raspberry);
+}
+
+.segments {
+  display: flex;
+  gap: 4px;
+}
+
+.segments__cell {
+  flex: 1;
+  height: 12px;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.segments__cell--on {
+  background: var(--lime);
+  box-shadow: inset 0 -3px 0 0 var(--green);
+}
+
+.segments__cell--next {
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+/* --------------------------------------------------------------------------
+   Coque de l'application
+   -------------------------------------------------------------------------- */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hud {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 24px;
+  background: var(--ink);
+  box-shadow: 0 var(--px) 0 0 var(--night);
+}
+
+.hud__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--paper);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.hud__brand span em {
+  color: var(--gold);
+}
+
+.hud__nav {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.hud__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  color: var(--steel);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  white-space: nowrap;
+}
+:root.readable .hud__link {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.hud__link:hover {
+  color: var(--paper);
+  background: rgba(148, 176, 194, 0.08);
+}
+
+.hud__link[aria-current='page'] {
+  color: var(--gold);
+  box-shadow: inset 0 calc(var(--px) * -1) 0 0 var(--gold);
+}
+
+.hud__status {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hud__xp {
+  display: grid;
+  gap: 2px;
+  min-width: 190px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hud__rank {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.hud__rank b {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.hud__rank span {
+  color: var(--steel);
+}
+
+.tutor-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 6px 10px;
+  border: 0;
+  background: var(--surface);
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 2px var(--teal);
+  white-space: nowrap;
+}
+
+:root.readable .tutor-btn {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.tutor-btn:hover,
+.tutor-btn--open {
+  background: var(--teal);
+  color: var(--paper);
+}
+
+.tutor-btn__mode {
+  padding: 2px 5px;
+  background: var(--ink);
+  color: var(--steel);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+}
+
+.tutor-btn__mode--on {
+  color: var(--lime);
+}
+
+.ai-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  color: var(--steel);
+  text-decoration: none;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--night);
+  white-space: nowrap;
+}
+
+.ai-pill--on {
+  color: var(--lime);
+  box-shadow: inset 0 0 0 2px var(--green);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 24px 112px;
+}
+
+.page-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.page-head p {
+  color: var(--text-muted);
+  max-width: 62ch;
+  margin-top: 10px;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.notice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  margin: 0 0 20px;
+  background: var(--surface);
+  color: var(--gold);
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+/* Texte enrichi */
+.rich p + p,
+.rich p + ul,
+.rich p + ol,
+.rich ul + p,
+.rich ol + p {
+  margin-top: 0.75em;
+}
+
+.rich ul,
+.rich ol {
+  margin: 0;
+  padding-left: 1.4em;
+}
+
+.rich li + li {
+  margin-top: 0.3em;
+}
+
+.rich li::marker {
+  color: var(--gold);
+}
+
+.inline-arrow {
+  display: inline-block;
+  vertical-align: -0.05em;
+  margin: 0 0.15em;
+  color: var(--gold);
+}
+
+/* --------------------------------------------------------------------------
+   Toasts (XP, rang)
+   -------------------------------------------------------------------------- */
+
+.toasts {
+  position: fixed;
+  right: 24px;
+  top: 84px;
+  z-index: 60;
+  display: grid;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--ink);
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  box-shadow:
+    calc(var(--px) * -1) 0 0 0 var(--gold),
+    var(--px) 0 0 0 var(--gold),
+    0 calc(var(--px) * -1) 0 0 var(--gold),
+    0 var(--px) 0 0 var(--gold);
+  animation: toast-in 240ms steps(4) both;
+}
+
+.toast--rank {
+  color: var(--lime);
+  box-shadow:
+    calc(var(--px) * -1) 0 0 0 var(--lime),
+    var(--px) 0 0 0 var(--lime),
+    0 calc(var(--px) * -1) 0 0 var(--lime),
+    0 var(--px) 0 0 var(--lime);
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Animations de Bob
+   -------------------------------------------------------------------------- */
+
+.bob-sprite--idle {
+  animation: bob-breathe 1.6s steps(1) infinite;
+}
+
+@keyframes bob-breathe {
+  0%,
+  55% {
+    transform: translateY(0);
+  }
+  56%,
+  100% {
+    transform: translateY(var(--px));
+  }
+}
+
+.bob-blink {
+  opacity: 0;
+  animation: bob-blink 4.2s steps(1) infinite;
+}
+
+.bob-blink--off {
+  animation: none;
+}
+
+@keyframes bob-blink {
+  0%,
+  95% {
+    opacity: 0;
+  }
+  96%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.piece-flash {
+  animation: piece-flash 900ms steps(6) 3;
+}
+
+@keyframes piece-flash {
+  0%,
+  100% {
+    filter: none;
+  }
+  50% {
+    filter: brightness(2.2);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Effet écran cathodique (optionnel)
+   -------------------------------------------------------------------------- */
+
+:root.crt body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 3px);
+}
+
+/* --------------------------------------------------------------------------
+   Mouvement réduit
+   -------------------------------------------------------------------------- */
+
+:root.reduce-motion *,
+:root.reduce-motion *::before,
+:root.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Galerie de sprites (route cachée) */
+.gallery {
+  display: grid;
+  gap: 32px;
+}
+.gallery__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-end;
+}
+.gallery figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.gallery figcaption {
+  font-size: 0.8rem;
+  color: var(--steel);
+}
+
+/* --------------------------------------------------------------------------
+   Boîte de dialogue
+   -------------------------------------------------------------------------- */
+
+.dialogue {
+  --frame-color: var(--steel);
+  padding: 26px 20px 18px;
+  margin-top: 18px;
+  background: var(--ink);
+}
+
+.dialogue__name {
+  position: absolute;
+  top: -16px;
+  left: 14px;
+  padding: 6px 10px 5px;
+  background: var(--steel);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  line-height: 1.4;
+}
+
+:root.readable .dialogue__name {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.dialogue--user {
+  --frame-color: var(--sky);
+}
+.dialogue--user .dialogue__name {
+  background: var(--sky);
+}
+.dialogue--boss {
+  --frame-color: var(--raspberry);
+}
+.dialogue--boss .dialogue__name {
+  background: var(--raspberry);
+  color: var(--paper);
+}
+.dialogue--narrator {
+  --frame-color: var(--night);
+}
+.dialogue--narrator .dialogue__name {
+  background: var(--night);
+  color: var(--steel);
+}
+
+.dialogue__body {
+  display: grid;
+  gap: 14px;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.dialogue__body > p {
+  min-height: 3em;
+}
+
+.dialogue__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: calc(var(--px) * -1);
+}
+
+.dialogue__actions--waiting {
+  visibility: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Confirmation en ligne
+   -------------------------------------------------------------------------- */
+
+.inline-confirm {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--raspberry);
+}
+
+.inline-confirm__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Bouton du tuteur (flottant)
+   -------------------------------------------------------------------------- */
+
+.tutor-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+}
+
+.tutor-fab .btn {
+  --btn-bg: var(--cyan);
+  --btn-lip: var(--sky);
+}
+
+.page-404 {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  max-width: 60ch;
+}

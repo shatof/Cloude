@@ -1,0 +1,186 @@
+.gcard {
+  --card-frame: var(--steel);
+  --card-gem: var(--steel);
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 8px;
+  width: 176px;
+  min-height: 248px;
+  margin: var(--px);
+  padding: 10px 10px 8px;
+  border: 0;
+  background: var(--surface-2);
+  color: var(--paper);
+  text-align: left;
+  font: inherit;
+  box-shadow:
+    calc(var(--px) * -1) 0 0 0 var(--card-frame),
+    var(--px) 0 0 0 var(--card-frame),
+    0 calc(var(--px) * -1) 0 0 var(--card-frame),
+    0 var(--px) 0 0 var(--card-frame),
+    inset 0 0 0 var(--px) var(--ink);
+}
+
+button.gcard {
+  cursor: pointer;
+  transition: transform 100ms steps(2);
+}
+
+button.gcard:hover {
+  transform: translateY(-4px);
+}
+
+.gcard--rare {
+  --card-frame: var(--sky);
+  --card-gem: var(--cyan);
+}
+
+.gcard--epique {
+  --card-frame: var(--coral);
+  --card-gem: var(--raspberry);
+}
+
+.gcard--legendaire {
+  --card-frame: var(--gold);
+  --card-gem: var(--gold);
+}
+
+.gcard--selected {
+  outline: var(--px) solid var(--paper);
+  outline-offset: calc(var(--px) * 2);
+}
+
+.gcard--large {
+  width: 236px;
+  min-height: 320px;
+}
+
+.gcard__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 2px 2px 0;
+}
+
+.gcard__term {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  line-height: 1.6;
+}
+
+:root.readable .gcard__term {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.gcard--large .gcard__term {
+  font-size: 0.6rem;
+}
+
+.gcard__gem {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: var(--card-gem);
+  box-shadow: inset -3px -3px 0 0 rgba(26, 28, 44, 0.4), inset 3px 3px 0 0 rgba(244, 244, 244, 0.5);
+}
+
+.gcard__art {
+  display: grid;
+  place-items: center;
+  height: 84px;
+  background:
+    repeating-linear-gradient(45deg, rgba(148, 176, 194, 0.06) 0 4px, transparent 4px 8px),
+    var(--ink);
+  box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.gcard--large .gcard__art {
+  height: 120px;
+}
+
+.gcard__def {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--steel);
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.gcard--large .gcard__def {
+  -webkit-line-clamp: 6;
+}
+
+.gcard__foot {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 6px;
+  border-top: 2px dotted var(--night);
+  font-size: 0.72rem;
+  color: var(--steel);
+}
+
+.gcard--back {
+  --card-frame: var(--night);
+  place-items: center;
+  grid-template-rows: 1fr auto;
+  background:
+    repeating-linear-gradient(45deg, rgba(86, 108, 134, 0.18) 0 6px, transparent 6px 12px),
+    var(--surface);
+}
+
+.gcard__back-mark {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  background: var(--ink);
+  color: var(--slate);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  box-shadow: inset 0 0 0 var(--px) var(--night);
+}
+
+.gcard__back-label {
+  font-size: 0.8rem;
+  color: var(--steel);
+  text-align: center;
+}
+
+.gcard-detail {
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+
+.gcard-detail__list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  width: 100%;
+}
+
+.gcard-detail__list dt {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+:root.readable .gcard-detail__list dt {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.gcard-detail__list dd {
+  margin: 0;
+}
+
+.gcard-detail__list s {
+  color: var(--coral);
+  text-decoration-thickness: 2px;
+}
