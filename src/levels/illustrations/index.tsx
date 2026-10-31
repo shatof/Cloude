@@ -10,6 +10,7 @@ import { PixelArt } from '../../sprites/PixelArt';
 import { Icon } from '../../ui/Icon';
 import { T } from '../../ui/typography';
 import { LEVEL2_ILLUSTRATIONS } from './level2';
+import { LEVEL3_ILLUSTRATIONS } from './level3';
 import './illustrations.css';
 
 const CHIP_COLORS = ['tok-a', 'tok-b', 'tok-c', 'tok-d', 'tok-e'];
@@ -257,6 +258,7 @@ function WhoDoesWhatIllustration() {
 
 export const ILLUSTRATIONS: Record<string, ComponentType> = {
   ...LEVEL2_ILLUSTRATIONS,
+  ...LEVEL3_ILLUSTRATIONS,
   tokenizer: TokenizerIllustration,
   'next-token': NextTokenIllustration,
   'context-window': ContextWindowIllustration,

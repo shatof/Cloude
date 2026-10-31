@@ -43,7 +43,10 @@ export function ChoiceRound({ spec, onDone }: RoundProps<ChoiceRoundSpec>) {
   const [picked, setPicked] = useState<string | null>(null);
   const [good, setGood] = useState(0);
   const question = spec.questions[index]!;
-  const options = useMemo(() => seededShuffle(question.options, `choice:${question.id}`), [question]);
+  const options = useMemo(
+    () => (question.ordered ? question.options : seededShuffle(question.options, `choice:${question.id}`)),
+    [question],
+  );
   const chosen = question.options.find((o) => o.id === picked);
   const correct = question.options.find((o) => o.correct);
   const last = index + 1 >= spec.questions.length;

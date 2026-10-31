@@ -2,6 +2,7 @@ import type { GlossaryCard, LevelDefinition, LevelId, ZoneId } from '../types';
 import { level0, level0Cards } from './level0';
 import { level1, level1Cards } from './level1';
 import { level2, level2Cards } from './level2';
+import { level3, level3Cards } from './level3';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -27,16 +28,7 @@ export const LEVELS: LevelDefinition[] = [
   level0,
   level1,
   level2,
-  upcoming(
-    'l3',
-    3,
-    '3',
-    'Le raisonnement',
-    'Raisonner',
-    'Chain of thought, ReAct et test-time compute : réfléchir avant et pendant l’action.',
-    'atelier',
-    'thinking-hourglass',
-  ),
+  level3,
   upcoming(
     'l4',
     4,
@@ -151,7 +143,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards, ...level3Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

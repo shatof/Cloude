@@ -2,6 +2,23 @@ import { PixelGrid, type Sprite } from './pixel';
 
 /** Sprites des boss (32 × 32). */
 
+/** Remplit un polygone (coordonnées continues, test au centre de chaque pixel). */
+function fillPolygon(g: PixelGrid, points: [number, number][], c: string): void {
+  for (let j = 0; j < 32; j += 1) {
+    for (let i = 0; i < 32; i += 1) {
+      const x = i + 0.5;
+      const y = j + 0.5;
+      let inside = false;
+      for (let a = 0, b = points.length - 1; a < points.length; b = a, a += 1) {
+        const [xa, ya] = points[a]!;
+        const [xb, yb] = points[b]!;
+        if (ya > y !== yb > y && x < ((xb - xa) * (y - ya)) / (yb - ya) + xa) inside = !inside;
+      }
+      if (inside) g.set(i, j, c);
+    }
+  }
+}
+
 function tokenivore(): Sprite {
   const g = new PixelGrid(32, 32);
   // Corps
@@ -95,8 +112,45 @@ function marteau(): Sprite {
   return g.toSprite();
 }
 
+function reflexe(): Sprite {
+  const g = new PixelGrid(32, 32);
+  const bolt: [number, number][] = [
+    [14, 1],
+    [28, 1],
+    [22, 13],
+    [28, 13],
+    [8, 31],
+    [13, 18],
+    [6, 18],
+  ];
+  // Éclair : ombre corail décalée, puis corps doré
+  fillPolygon(g, bolt, 'o');
+  fillPolygon(
+    g,
+    bolt.map(([x, y]) => [x - 1, y]),
+    'y',
+  );
+  g.vline(14, 2, 3, 'w').set(13, 4, 'w');
+  // Sourcils froncés, regard tourné vers l'avant
+  g.stamp(['kk..', '..kk'], 13, 3);
+  g.stamp(['..kk', 'kk..'], 19, 3);
+  g.rect(14, 5, 3, 3, 'w').rect(14, 6, 2, 2, 'k');
+  g.rect(20, 5, 3, 3, 'w').rect(20, 6, 2, 2, 'k');
+  // Sourire pressé
+  g.stamp(['k........k', '.kwwwwwwk.', '..krrrrk..', '...kkkk...'], 12, 9);
+  // Buzzer de quiz, déjà enfoncé
+  g.stamp(['..rrrrr..', '.rrwrrrrr', 'rrrrrrrrr'], 21, 23);
+  g.bevelBox(20, 26, 11, 5, { fill: 'm', hi: 'i', lo: 'd', r: 1 });
+  // Traits de vitesse
+  g.hline(28, 31, 4, 'w').hline(27, 31, 8, 's').hline(29, 31, 16, 'w');
+  g.stamp(['.y.', 'yyy', '.y.'], 1, 4).set(3, 24, 'y').set(1, 27, 'y');
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
   marteau: marteau(),
+  reflexe: reflexe(),
 };

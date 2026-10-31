@@ -20,6 +20,8 @@ export interface ChoiceQuestion {
   code?: string;
   prompt: string;
   options: { id: string; text: string; correct?: boolean; feedback: string }[];
+  /** Garde l'ordre des options (ex. « Étape 1 », « Étape 2 »…) au lieu de les mélanger. */
+  ordered?: boolean;
   /** À retenir, affiché après la réponse. */
   explanation?: string;
 }

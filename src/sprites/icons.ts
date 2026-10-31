@@ -497,6 +497,49 @@ export const ICONS: Record<string, Sprite> = {
     '............',
   ]),
 
+  thought: ui([
+    '..xxxxxxxx..',
+    '.x........x.',
+    'x..........x',
+    'x.xx.xx.xx.x',
+    'x.xx.xx.xx.x',
+    'x..........x',
+    '.x........x.',
+    '..xxxxxxxx..',
+    '..xx........',
+    '..xx........',
+    '............',
+    'x...........',
+  ]),
+  magnifier: ui([
+    '..xxxx......',
+    '.x....x.....',
+    'x......x....',
+    'x......x....',
+    'x......x....',
+    'x......x....',
+    '.x....xx....',
+    '..xxxxxxx...',
+    '.......xxx..',
+    '........xxx.',
+    '.........xxx',
+    '..........xx',
+  ]),
+  stopwatch: ui([
+    '....xxxx....',
+    '.....xx.....',
+    '...xxxxxx...',
+    '..x......x..',
+    '.x...x....x.',
+    '.x...x....x.',
+    '.x...xxx..x.',
+    '.x........x.',
+    '.x........x.',
+    '..x......x..',
+    '...xxxxxx...',
+    '............',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -572,6 +615,9 @@ const CARD_TINTS: Record<string, [string, string]> = {
   'tool-call': ['wrench', 'y'],
   'tool-schema': ['form', 'c'],
   'tool-result': ['receipt', 'l'],
+  'chain-of-thought': ['thought', 's'],
+  react: ['magnifier', 'o'],
+  'test-time-compute': ['stopwatch', 'y'],
 };
 for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
   const sprite = ICONS[base];
