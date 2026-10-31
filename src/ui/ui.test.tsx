@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { App } from '../App';
+import { LEVELS } from '../content/levels';
 import { BOSS_SPRITES } from '../sprites/bosses';
 import { BOB_BASE, BOB_BLINK, BOB_FACES, BOB_SIZE, PIECE_LAYERS } from '../sprites/bob';
 import { ICONS, pieceIcon } from '../sprites/icons';
@@ -76,14 +77,18 @@ describe('Application', () => {
     render(<App />);
     expect(await screen.findByRole('heading', { name: 'Carte des niveaux' })).toBeInTheDocument();
     expect(screen.getAllByRole('button', { name: /^Niveau / })).toHaveLength(14);
-    expect(screen.getByRole('button', { name: /Niveau 2 : Les outils.*Contenu à venir/ })).toBeInTheDocument();
+    const soon = LEVELS.find((l) => !l.content);
+    if (soon) expect(screen.getByRole('button', { name: new RegExp(`Niveau ${soon.badge} :.*Contenu à venir`) })).toBeInTheDocument();
   });
 
   it('un niveau à venir affiche son titre et son concept', async () => {
-    window.location.hash = '#/niveau/l7';
+    const soon = [...LEVELS].reverse().find((l) => !l.content);
+    if (!soon) return;
+    window.location.hash = `#/niveau/${soon.id}`;
     render(<App />);
-    expect(await screen.findByRole('heading', { name: 'Harness engineering' })).toBeInTheDocument();
-    expect(screen.getByText(/Atelier de montage/)).toBeInTheDocument();
+    const pattern = soon.title.replace(/'/g, '’').replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+');
+    expect(await screen.findByRole('heading', { name: new RegExp(`^${pattern}$`) })).toBeInTheDocument();
+    expect(screen.getByText(/Le concept/)).toBeInTheDocument();
   });
 
   it('déroule la scène du problème puis débloque le concept', async () => {

@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { HARNESS_PIECES, getPiece } from '../game/harness';
+import { ILLUSTRATIONS } from '../levels/illustrations';
+import { MINIGAMES } from '../minigames/registry';
+import { BOSS_SPRITES } from '../sprites/bosses';
+import { ICONS } from '../sprites/icons';
 import { CARDS, LEVELS, getCard } from './levels';
 import { GLOBAL_TUTOR_ENTRIES } from './tutorGlobal';
 import { LEVEL_IDS, type LevelDefinition } from './types';
@@ -15,6 +19,16 @@ const playable = LEVELS.filter((l): l is LevelDefinition & { content: NonNullabl
 
 function wordCount(text: string): number {
   return text.split(/\s+/).filter(Boolean).length;
+}
+
+function normalize(text: string): string {
+  return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+/** Le terme apparaît-il comme mot entier (et pas dans « fragment » pour « RAG ») ? */
+export function containsWord(text: string, term: string): boolean {
+  const t = normalize(term).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(^|[^a-z0-9])${t}([^a-z0-9]|$)`).test(normalize(text));
 }
 
 describe('Registre des niveaux', () => {
@@ -83,6 +97,14 @@ describe.each(playable.map((l) => [l.id, l] as const))('Format du niveau %s', (_
     for (const id of content.reward.cardIds) expect(getCard(id)?.levelId).toBe(level.id);
   });
 
+  it('référence un mini-jeu, des illustrations et un sprite de boss existants', () => {
+    expect(MINIGAMES[content.minigame.id], content.minigame.id).toBeDefined();
+    expect(BOSS_SPRITES[content.boss.sprite], content.boss.sprite).toBeDefined();
+    for (const screen of content.concept) {
+      if (screen.illustration) expect(ILLUSTRATIONS[screen.illustration], screen.illustration).toBeDefined();
+    }
+  });
+
   it('le tuteur hors-ligne a des réponses et des suggestions valides', () => {
     const ids = content.tutor.entries.map((e) => e.id);
     expect(new Set(ids).size).toBe(ids.length);
@@ -102,7 +124,11 @@ describe('Cartes de glossaire', () => {
   });
 
   it('ne nomment pas le terme dans leur analogie (elle sert de question)', () => {
-    for (const c of CARDS) expect(c.analogy.toLowerCase()).not.toContain(c.term.toLowerCase());
+    for (const c of CARDS) expect(containsWord(c.analogy, c.term), c.id).toBe(false);
+  });
+
+  it('ont une icône existante', () => {
+    for (const c of CARDS) expect(ICONS[c.icon], `${c.id} : ${c.icon}`).toBeDefined();
   });
 });
 

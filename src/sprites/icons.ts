@@ -20,6 +20,11 @@ function harnessIcon(): Sprite {
 
 const ui = (rows: string[]) => spriteFromRows(rows);
 
+/** Colore une icône d'interface (« x » → couleur de la palette), pour en faire une icône de carte. */
+export function tint(sprite: Sprite, color: string): Sprite {
+  return { ...sprite, rows: sprite.rows.map((r) => r.replace(/x/g, color)) };
+}
+
 export const ICONS: Record<string, Sprite> = {
   home: ui([
     '.....xx.....',
@@ -449,6 +454,49 @@ export const ICONS: Record<string, Sprite> = {
     '..........',
   ]),
 
+  wrench: ui([
+    '........xxx.',
+    '.......xx.xx',
+    '.......x...x',
+    '.......xx..x',
+    '......xxxxx.',
+    '.....xxx....',
+    '....xxx.....',
+    '...xxx......',
+    '..xxx.......',
+    '.xxx........',
+    '.xx.........',
+    '............',
+  ]),
+  form: ui([
+    '.xxxxxxxx...',
+    '.x......xx..',
+    '.x.xxx...x..',
+    '.x.......x..',
+    '.x.x.xxx.x..',
+    '.x.......x..',
+    '.x.x.xxx.x..',
+    '.x.......x..',
+    '.x.xxxxx.x..',
+    '.x.......x..',
+    '.xxxxxxxxx..',
+    '............',
+  ]),
+  receipt: ui([
+    '.xxxxxxxxx..',
+    '.x.......x..',
+    '.x.xxxxx.x..',
+    '.x.......x..',
+    '.x.xxx.x.x..',
+    '.x.......x..',
+    '.x.xxxx..x..',
+    '.x.......x..',
+    '.x.x.x.x.x..',
+    '.xx.x.x.xx..',
+    '............',
+    '............',
+  ]),
+
   /* Icônes de cartes (en couleurs) */
   token: spriteFromRows([
     '............',
@@ -518,3 +566,14 @@ export function pieceIcon(pieceId: string): Sprite | undefined {
 }
 
 ICONS.loop = pieceIcon('loop-engine') as Sprite;
+
+/* Icônes des cartes des niveaux suivants : icônes d'interface colorées. */
+const CARD_TINTS: Record<string, [string, string]> = {
+  'tool-call': ['wrench', 'y'],
+  'tool-schema': ['form', 'c'],
+  'tool-result': ['receipt', 'l'],
+};
+for (const [id, [base, color]] of Object.entries(CARD_TINTS)) {
+  const sprite = ICONS[base];
+  if (sprite) ICONS[id] = tint(sprite, color);
+}

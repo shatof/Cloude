@@ -132,23 +132,27 @@ describe('Progression d’un niveau', () => {
 
   it('débloque les niveaux un par un et signale le contenu à venir', () => {
     let save = createInitialSave();
-    const [l0, l1, l2] = LEVELS;
-    expect(levelStatus(save, l0!)).toBe('available');
-    expect(levelStatus(save, l1!)).toBe('locked');
-    expect(levelStatus(save, l2!)).toBe('coming-soon');
-    save = completeLevel(save, 'l0');
-    expect(levelStatus(save, l0!)).toBe('completed');
-    expect(levelStatus(save, l1!)).toBe('available');
-    expect(currentLevel(save).id).toBe('l1');
-    save = completeLevel(save, 'l1');
-    expect(currentLevel(save).id).toBe('l2');
-    expect(levelStatus(save, l2!)).toBe('coming-soon');
+    expect(levelStatus(save, LEVELS[0]!)).toBe('available');
+    expect(levelStatus(save, LEVELS[1]!)).toBe('locked');
+    const firstSoon = LEVELS.findIndex((l) => !l.content);
+    const playableCount = firstSoon === -1 ? LEVELS.length : firstSoon;
+    for (let i = 0; i < playableCount; i += 1) {
+      const level = LEVELS[i]!;
+      expect(levelStatus(save, level)).toBe('available');
+      save = completeLevel(save, level.id);
+      expect(levelStatus(save, level)).toBe('completed');
+    }
+    if (firstSoon !== -1) {
+      expect(levelStatus(save, LEVELS[firstSoon]!)).toBe('coming-soon');
+      expect(currentLevel(save).id).toBe(LEVELS[firstSoon]!.id);
+    }
   });
 
   it('le réglage « tout débloquer » ouvre les niveaux jouables seulement', () => {
     const save = gameReducer(createInitialSave(), { type: 'settings/update', patch: { unlockAll: true } });
-    expect(levelStatus(save, LEVELS[1]!)).toBe('available');
-    expect(levelStatus(save, LEVELS[2]!)).toBe('coming-soon');
+    for (const level of LEVELS) {
+      expect(levelStatus(save, level)).toBe(level.content ? 'available' : 'coming-soon');
+    }
   });
 
   it('la réinitialisation garde les réglages', () => {
@@ -167,7 +171,9 @@ describe('Mode révision', () => {
     expect(flashcards).toHaveLength(CARDS.length * 3);
     for (const f of flashcards.filter((x) => x.kind === 'analogy')) {
       const card = CARDS.find((c) => c.id === f.cardId)!;
-      expect(f.front.toLowerCase()).not.toContain(card.term.toLowerCase());
+      const t = card.term.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const front = f.front.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      expect(new RegExp(`(^|[^a-z0-9])${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^a-z0-9]|$)`).test(front), card.id).toBe(false);
     }
   });
 

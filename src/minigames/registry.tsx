@@ -1,7 +1,9 @@
 import type { ComponentType } from 'react';
+import { configuredMiniGame } from './kit/rounds';
 import { LoopRunner } from './loopRunner/LoopRunner';
 import type { MiniGameProps } from './shared';
 import { TokenWorkshop } from './tokenWorkshop/TokenWorkshop';
+import { toolWorkshopConfig } from './toolWorkshop/config';
 import './minigames.css';
 
 /**
@@ -11,4 +13,5 @@ import './minigames.css';
 export const MINIGAMES: Record<string, ComponentType<MiniGameProps>> = {
   'token-workshop': TokenWorkshop,
   'loop-runner': LoopRunner,
+  'tool-workshop': configuredMiniGame(toolWorkshopConfig),
 };

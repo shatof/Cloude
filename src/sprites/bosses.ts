@@ -72,7 +72,31 @@ function baratineur(): Sprite {
   return g.toSprite();
 }
 
+function marteau(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Tête du marteau
+  g.bevelBox(3, 3, 26, 11, { fill: 'i', hi: 'w', lo: 'm', r: 2 });
+  g.rect(3, 5, 4, 7, 'm');
+  g.rect(25, 5, 4, 7, 'm');
+  // Visage colérique
+  g.stamp(['kk...', '.kk..', '..kkk'], 9, 4);
+  g.stamp(['...kk', '..kk.', 'kkk..'], 18, 4);
+  g.rect(11, 7, 3, 3, 'k').set(12, 8, 'w');
+  g.rect(18, 7, 3, 3, 'k').set(19, 8, 'w');
+  g.hline(13, 18, 11, 'k').set(12, 10, 'k').set(19, 10, 'k');
+  // Manche en bois
+  g.bevelBox(13, 14, 6, 15, { fill: 'o', hi: 'y', lo: 'r', r: 1 });
+  g.hline(14, 17, 19, 'r').hline(14, 17, 23, 'r');
+  // Pieds
+  g.rect(10, 29, 5, 2, 'm').rect(17, 29, 5, 2, 'm');
+  // Traits d'impact
+  g.stamp(['y.', '.y', 'y.'], 0, 5).stamp(['.y', 'y.', '.y'], 30, 5);
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
+  marteau: marteau(),
 };

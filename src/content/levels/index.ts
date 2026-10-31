@@ -1,6 +1,7 @@
 import type { GlossaryCard, LevelDefinition, LevelId, ZoneId } from '../types';
 import { level0, level0Cards } from './level0';
 import { level1, level1Cards } from './level1';
+import { level2, level2Cards } from './level2';
 
 /**
  * Registre des niveaux, dans l'ordre du parcours.
@@ -25,16 +26,7 @@ function upcoming(
 export const LEVELS: LevelDefinition[] = [
   level0,
   level1,
-  upcoming(
-    'l2',
-    2,
-    '2',
-    'Les outils (tool use)',
-    'Outils',
-    'Function calling : choisir le bon outil et remplir correctement ses paramètres.',
-    'atelier',
-    'tool-belt',
-  ),
+  level2,
   upcoming(
     'l3',
     3,
@@ -159,7 +151,7 @@ export const ZONES: Record<ZoneId, { name: string }> = {
 };
 
 /** Toutes les cartes de glossaire, dans l'ordre du parcours. */
-export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards];
+export const CARDS: GlossaryCard[] = [...level0Cards, ...level1Cards, ...level2Cards];
 
 const LEVEL_BY_ID = new Map(LEVELS.map((l) => [l.id, l]));
 const CARD_BY_ID = new Map(CARDS.map((c) => [c.id, c]));

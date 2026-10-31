@@ -79,6 +79,9 @@ export function useRoute(): Route {
   useEffect(() => {
     const onChange = () => setRoute(parseHash(window.location.hash));
     window.addEventListener('hashchange', onChange);
+    // Les effets des écrans enfants s'exécutent avant celui-ci : une redirection faite
+    // au premier rendu (ex. #/niveau/l2 → #/niveau/l2/problem) serait sinon manquée.
+    onChange();
     return () => window.removeEventListener('hashchange', onChange);
   }, []);
   return route;
