@@ -227,7 +227,7 @@ describe('Labo de prompt injection', () => {
     });
     const r = await runInjectionAttempt(DEMO_INJECTION, provider);
     expect(r.source).toBe('fallback');
-    expect(r.notice).toMatch(/réseau/);
+    expect(r.notice).toMatch(/Impossible de joindre le modèle/);
   });
 });
 

@@ -69,7 +69,7 @@ export function describeAiError(error: unknown): string {
       case 'auth':
         return 'Clé API refusée : vérifie-la dans les Réglages.';
       case 'network':
-        return 'Impossible de joindre le modèle (réseau).';
+        return error.message ? `Impossible de joindre le modèle : ${error.message}` : 'Impossible de joindre le modèle (réseau).';
       case 'rate':
         return 'Trop de requêtes pour le moment.';
       case 'bad-request':

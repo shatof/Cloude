@@ -1,4 +1,4 @@
-import { isAiConfigured, loadAiConfig, type AIConfig } from './config';
+import { isAiConfigured, loadAiConfig, type AIConfig, type ProviderId } from './config';
 import { describeAiError, type AIProvider, type ModelOption } from './types';
 
 /**
@@ -9,20 +9,33 @@ import { describeAiError, type AIProvider, type ModelOption } from './types';
 let cached: { key: string; provider: AIProvider } | null = null;
 
 function cacheKey(config: AIConfig): string {
-  return [config.provider, config.apiKey, config.model, config.structured, config.effort].join('|');
+  return [config.provider, config.apiKey, config.model, config.structured, config.effort, config.baseUrl].join('|');
+}
+
+/** Chaque fournisseur vit dans son propre module, chargé seulement s'il est utilisé. */
+async function createProvider(config: AIConfig): Promise<AIProvider> {
+  if (config.provider === 'mistral') {
+    const { createMistralProvider } = await import('./mistral');
+    return createMistralProvider(config);
+  }
+  const { createAnthropicProvider } = await import('./anthropic');
+  return createAnthropicProvider(config);
 }
 
 export async function getProvider(config: AIConfig = loadAiConfig()): Promise<AIProvider | null> {
   if (!isAiConfigured(config)) return null;
   const key = cacheKey(config);
   if (cached?.key === key) return cached.provider;
-  const { createAnthropicProvider } = await import('./anthropic');
-  const provider = createAnthropicProvider(config);
+  const provider = await createProvider(config);
   cached = { key, provider };
   return provider;
 }
 
-export async function listModels(apiKey: string): Promise<ModelOption[]> {
+export async function listModels(provider: Exclude<ProviderId, 'none'>, apiKey: string, baseUrl = ''): Promise<ModelOption[]> {
+  if (provider === 'mistral') {
+    const { listMistralModels } = await import('./mistral');
+    return listMistralModels(apiKey, baseUrl);
+  }
   const { listAnthropicModels } = await import('./anthropic');
   return listAnthropicModels(apiKey);
 }

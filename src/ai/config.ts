@@ -5,7 +5,13 @@
  * « Mémoriser » = localStorage ; sinon sessionStorage (oubliée à la fermeture de l'onglet).
  */
 
-export type ProviderId = 'none' | 'anthropic';
+export type ProviderId = 'none' | 'anthropic' | 'mistral';
+
+/** Fournisseurs de modèles utilisables (« none » = mode simulé). */
+export const PROVIDERS: { id: Exclude<ProviderId, 'none'>; label: string; keyHint: string; consoleUrl: string }[] = [
+  { id: 'mistral', label: 'Mistral AI', keyHint: 'Clé de La Plateforme Mistral', consoleUrl: 'https://console.mistral.ai/api-keys' },
+  { id: 'anthropic', label: 'Anthropic (Claude)', keyHint: 'sk-ant-…', consoleUrl: 'https://console.anthropic.com/settings/keys' },
+];
 
 export interface AIConfig {
   provider: ProviderId;
@@ -15,6 +21,11 @@ export interface AIConfig {
   structured: boolean;
   effort: boolean;
   remember: boolean;
+  /**
+   * Adresse de l'API (Mistral uniquement). Vide = adresse par défaut :
+   * le relais local de Vite en développement, l'API publique sinon.
+   */
+  baseUrl: string;
 }
 
 export const AI_CONFIG_KEY = 'gitgudai.ia';
@@ -27,6 +38,7 @@ export const EMPTY_AI_CONFIG: AIConfig = {
   structured: false,
   effort: false,
   remember: false,
+  baseUrl: '',
 };
 
 function store(kind: 'local' | 'session'): Storage | null {
@@ -42,13 +54,14 @@ function parse(text: string | null | undefined): AIConfig | null {
   try {
     const raw = JSON.parse(text) as Partial<AIConfig>;
     return {
-      provider: raw.provider === 'anthropic' ? 'anthropic' : 'none',
+      provider: raw.provider === 'anthropic' || raw.provider === 'mistral' ? raw.provider : 'none',
       apiKey: typeof raw.apiKey === 'string' ? raw.apiKey.trim() : '',
       model: typeof raw.model === 'string' ? raw.model.trim() : '',
       modelLabel: typeof raw.modelLabel === 'string' ? raw.modelLabel : '',
       structured: raw.structured === true,
       effort: raw.effort === true,
       remember: raw.remember === true,
+      baseUrl: typeof raw.baseUrl === 'string' ? raw.baseUrl.trim() : '',
     };
   } catch {
     return null;
@@ -96,5 +109,9 @@ export function subscribeAiConfig(listener: Listener): () => void {
 }
 
 export function isAiConfigured(config: AIConfig): boolean {
-  return config.provider === 'anthropic' && config.apiKey.length > 0 && config.model.length > 0;
+  return config.provider !== 'none' && config.apiKey.length > 0 && config.model.length > 0;
+}
+
+export function providerLabel(provider: ProviderId): string {
+  return PROVIDERS.find((p) => p.id === provider)?.label ?? 'Aucun';
 }

@@ -26,9 +26,9 @@ export const GLOBAL_TUTOR_ENTRIES: TutorEntry[] = [
   {
     id: 'g-ai',
     question: 'Peut-on connecter une vraie IA ?',
-    keywords: ['ia', 'connecter', 'connexion', 'api', 'cle', 'vraie', 'reelle', 'claude', 'anthropic', 'llm'],
+    keywords: ['ia', 'connecter', 'connexion', 'api', 'cle', 'vraie', 'reelle', 'claude', 'anthropic', 'mistral', 'llm'],
     answer:
-      'Oui, en option, dans les Réglages : avec ta propre clé API, le tuteur (moi !), l’évaluation du boss final et le labo d’injection du niveau 11 utilisent un vrai modèle. Sans connexion, ils répondent avec des réponses préparées à l’avance. Le reste du jeu, scores et XP compris, ne dépend jamais de l’IA : il est entièrement simulé.',
+      'Oui, en option, dans les Réglages : avec ta propre clé API (Mistral AI ou Anthropic), le tuteur (moi !), l’évaluation du boss final et le labo d’injection du niveau 11 utilisent un vrai modèle. Sans connexion, ils répondent avec des réponses préparées à l’avance. Le reste du jeu, scores et XP compris, ne dépend jamais de l’IA : il est entièrement simulé.',
   },
 ];
 

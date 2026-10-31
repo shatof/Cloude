@@ -4,7 +4,17 @@ import { evaluateFinalBoss } from '../ai/finalBoss';
 import { runInjectionAttempt } from '../ai/injection';
 import { askTutor } from '../ai/tutor';
 import { listModels, testConnection } from '../ai/client';
-import { EMPTY_AI_CONFIG, clearAiConfig, isAiConfigured, saveAiConfig, type AIConfig } from '../ai/config';
+import {
+  EMPTY_AI_CONFIG,
+  PROVIDERS,
+  clearAiConfig,
+  isAiConfigured,
+  providerLabel,
+  saveAiConfig,
+  type AIConfig,
+  type ProviderId,
+} from '../ai/config';
+import { MISTRAL_DEV_RELAY, resolveMistralBaseUrl } from '../ai/mistralUrl';
 import { useAiConfig } from '../ai/useAi';
 import { describeAiError, type ModelOption } from '../ai/types';
 import { useGame } from '../game/GameContext';
@@ -59,24 +69,34 @@ function Toggle({ label, hint, checked, onChange }: { label: string; hint?: stri
 
 function AiSettings() {
   const stored = useAiConfig();
-  const [draft, setDraft] = useState<AIConfig>(stored.provider === 'none' ? { ...EMPTY_AI_CONFIG, provider: 'anthropic' } : stored);
+  const [draft, setDraft] = useState<AIConfig>(stored.provider === 'none' ? { ...EMPTY_AI_CONFIG, provider: 'mistral' } : stored);
   const [enabled, setEnabled] = useState(stored.provider !== 'none');
   const [models, setModels] = useState<ModelOption[]>([]);
   const [status, setStatus] = useState<{ tone: 'ok' | 'error' | 'info'; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const connected = isAiConfigured(stored);
+  const provider = draft.provider === 'none' ? 'mistral' : draft.provider;
+  const providerInfo = PROVIDERS.find((p) => p.id === provider)!;
 
   const update = (patch: Partial<AIConfig>) => setDraft((d) => ({ ...d, ...patch }));
+
+  const switchProvider = (id: Exclude<ProviderId, 'none'>) => {
+    if (id === provider) return;
+    // Clés et modèles sont propres à chaque fournisseur : on repart de zéro.
+    setDraft({ ...EMPTY_AI_CONFIG, provider: id, remember: draft.remember });
+    setModels([]);
+    setStatus(null);
+  };
 
   const loadModels = async () => {
     setBusy(true);
     setStatus({ tone: 'info', text: 'Chargement de la liste des modèles…' });
     try {
-      const list = await listModels(draft.apiKey);
+      const list = await listModels(provider, draft.apiKey.trim(), draft.baseUrl);
       setModels(list);
-      const first = list[0];
-      if (first && !list.some((m) => m.id === draft.model)) {
-        update({ model: first.id, modelLabel: first.label, structured: first.structured, effort: first.effort });
+      if (!list.some((m) => m.id === draft.model)) {
+        const first = provider === 'anthropic' ? list[0] : undefined;
+        update(first ? { model: first.id, modelLabel: first.label, structured: first.structured, effort: first.effort } : { model: '', modelLabel: '' });
       }
       setStatus({ tone: 'ok', text: `${list.length} modèle${list.length > 1 ? 's' : ''} disponible${list.length > 1 ? 's' : ''} pour cette clé.` });
     } catch (error) {
@@ -91,7 +111,13 @@ function AiSettings() {
   };
 
   const save = async () => {
-    const config: AIConfig = { ...draft, provider: 'anthropic', apiKey: draft.apiKey.trim(), model: draft.model.trim() };
+    const config: AIConfig = {
+      ...draft,
+      provider,
+      apiKey: draft.apiKey.trim(),
+      model: draft.model.trim(),
+      baseUrl: provider === 'mistral' ? draft.baseUrl.trim() : '',
+    };
     if (!isAiConfigured(config)) {
       setStatus({ tone: 'error', text: 'Il faut une clé API et un modèle.' });
       return;
@@ -110,7 +136,7 @@ function AiSettings() {
 
   const disconnect = () => {
     clearAiConfig();
-    setDraft({ ...EMPTY_AI_CONFIG, provider: 'anthropic' });
+    setDraft({ ...EMPTY_AI_CONFIG, provider });
     setModels([]);
     setEnabled(false);
     setStatus({ tone: 'info', text: 'Modèle déconnecté : retour au mode simulé.' });
@@ -125,12 +151,12 @@ function AiSettings() {
 
       <p className={`ai-state ${connected ? 'ai-state--on' : ''}`} role="status">
         <Icon name="chip" size={16} />
-        {connected ? `Connecté : ${stored.modelLabel || stored.model}` : 'Mode simulé : aucun modèle connecté.'}
+        {connected ? `Connecté : ${stored.modelLabel || stored.model} (${providerLabel(stored.provider)})` : 'Mode simulé : aucun modèle connecté.'}
       </p>
 
       <Toggle
-        label="Connecter un modèle Anthropic (Claude)"
-        hint="Avec ta propre clé API : les appels partent directement de ce navigateur."
+        label="Connecter un vrai modèle"
+        hint="Avec ta propre clé API, chez Mistral AI ou Anthropic."
         checked={enabled}
         onChange={(v) => {
           setEnabled(v);
@@ -140,17 +166,31 @@ function AiSettings() {
 
       {enabled ? (
         <div className="ai-form">
+          <Choice<Exclude<ProviderId, 'none'>>
+            legend="Fournisseur"
+            name="provider"
+            value={provider}
+            options={PROVIDERS.map((p) => ({ value: p.id, label: p.label }))}
+            onChange={switchProvider}
+          />
           <div className="field">
-            <label htmlFor="api-key">Clé API</label>
+            <label htmlFor="api-key">Clé API {providerInfo.label}</label>
             <input
               id="api-key"
               type="password"
               value={draft.apiKey}
               onChange={(e) => update({ apiKey: e.target.value })}
-              placeholder="sk-ant-…"
+              placeholder={providerInfo.keyHint}
               autoComplete="off"
               spellCheck={false}
             />
+            <small className="muted">
+              Pas encore de clé ?{' '}
+              <a href={providerInfo.consoleUrl} target="_blank" rel="noopener noreferrer">
+                La créer sur la console {providerInfo.label}
+              </a>
+              .
+            </small>
           </div>
           <Toggle
             label="Mémoriser la clé sur cet appareil"
@@ -158,6 +198,27 @@ function AiSettings() {
             checked={draft.remember}
             onChange={(v) => update({ remember: v })}
           />
+          {provider === 'mistral' ? (
+            <details className="ai-advanced" open={Boolean(draft.baseUrl)}>
+              <summary>Adresse de l’API (relais)</summary>
+              <p className="muted">
+                Les navigateurs bloquent les appels vers une API qui n’autorise pas les requêtes venant d’autres sites (CORS). Avec{' '}
+                <code>npm run dev</code> ou <code>npm run preview</code>, le jeu passe par un relais intégré : <code>{MISTRAL_DEV_RELAY}</code>. Si tu publies le
+                site ailleurs et que les appels directs échouent, indique ici l’adresse de ton propre relais.
+              </p>
+              <div className="field">
+                <label htmlFor="base-url">Adresse de l’API</label>
+                <input
+                  id="base-url"
+                  value={draft.baseUrl}
+                  onChange={(e) => update({ baseUrl: e.target.value })}
+                  placeholder={`Par défaut : ${resolveMistralBaseUrl('')}`}
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+              </div>
+            </details>
+          ) : null}
           <div className="ai-form__row">
             <button type="button" className="btn btn--secondary btn--small" onClick={loadModels} disabled={busy || !draft.apiKey.trim()}>
               <Icon name="download" size={12} /> Charger les modèles
@@ -167,13 +228,18 @@ function AiSettings() {
             <div className="field">
               <label htmlFor="model-select">Modèle</label>
               <select id="model-select" value={draft.model} onChange={(e) => pickModel(e.target.value)}>
+                {draft.model ? null : <option value="">Choisis un modèle…</option>}
                 {models.map((m) => (
                   <option key={m.id} value={m.id}>
-                    {m.label} ({m.id})
+                    {m.label === m.id ? m.id : `${m.label} (${m.id})`}
                   </option>
                 ))}
               </select>
-              <small className="muted">Pour l’évaluation du boss final, privilégie le modèle le plus capable de la liste.</small>
+              <small className="muted">
+                {provider === 'mistral'
+                  ? 'Choisis un modèle généraliste récent plutôt qu’un modèle spécialisé (code, vision, audio). Pour le juge du boss final, prends le plus capable ; les modèles de raisonnement sont plus lents.'
+                  : 'Pour l’évaluation du boss final, privilégie le modèle le plus capable de la liste.'}
+              </small>
             </div>
           ) : (
             <div className="field">
@@ -181,7 +247,9 @@ function AiSettings() {
               <input
                 id="model-id"
                 value={draft.model}
-                onChange={(e) => update({ model: e.target.value, modelLabel: e.target.value, structured: false, effort: false })}
+                onChange={(e) =>
+                  update({ model: e.target.value, modelLabel: e.target.value, structured: provider === 'mistral', effort: false })
+                }
                 placeholder="Charge la liste, ou saisis l’identifiant"
                 autoComplete="off"
                 spellCheck={false}
@@ -199,8 +267,8 @@ function AiSettings() {
             ) : null}
           </div>
           <p className="settings__warning">
-            <Icon name="warning" size={12} /> La clé reste dans ce navigateur et sert uniquement à appeler l’API Anthropic. N’active pas
-            « mémoriser » sur un ordinateur partagé. Les appels sont facturés sur ton compte.
+            <Icon name="warning" size={12} /> La clé reste dans ce navigateur et sert uniquement à appeler l’API {providerInfo.label}. N’active
+            pas « mémoriser » sur un ordinateur partagé. Les appels sont facturés sur ton compte.
           </p>
         </div>
       ) : null}

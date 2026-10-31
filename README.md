@@ -86,14 +86,26 @@ Le jeu est entièrement jouable sans IA. En option, un vrai modèle peut animer 
 
 **Les scores et l'XP ne dépendent jamais du modèle** : pour le boss final, la note vient toujours de la grille déterministe, le juge ne fait que commenter.
 
-Connexion : *Réglages → IA réelle → Connecter un modèle Anthropic*, coller sa clé API, charger la liste des modèles (récupérée depuis l'API, rien n'est codé en dur), puis « Tester et enregistrer ». Le panneau « Tester la couche IA » lance un exemple de chacun des trois usages.
+Deux fournisseurs sont pris en charge : **Mistral AI** et **Anthropic (Claude)**.
+
+Connexion : *Réglages → IA réelle → Connecter un vrai modèle*, choisir le fournisseur, coller sa clé API, charger la liste des modèles (récupérée depuis l'API, rien n'est codé en dur), puis « Tester et enregistrer ». Le panneau « Tester la couche IA » lance un exemple de chacun des trois usages.
+
+### Mistral et le CORS
+
+Un navigateur n'appelle une API depuis une page web que si cette API l'autorise (CORS). Anthropic le permet explicitement ; pour l'API Mistral, ce n'est pas garanti. Le jeu prévoit donc un **relais** :
+
+- avec `npm run dev` ou `npm run preview`, Vite sert un relais local sur `/mistral-api` qui transmet les requêtes à `https://api.mistral.ai` côté serveur (voir `vite.config.ts`) : rien à configurer ;
+- une fois le site publié ailleurs (hébergement statique), le jeu appelle directement `https://api.mistral.ai`. Si le navigateur bloque l'appel, indique l'adresse de ton propre relais dans *Réglages → Adresse de l'API (relais)*, ou au moment du build avec la variable `VITE_MISTRAL_BASE_URL`.
+
+Le relais ne stocke rien : la clé reste celle saisie dans le navigateur et voyage dans l'en-tête `Authorization`.
 
 Confidentialité :
 - la clé est stockée à part de la sauvegarde (`gitgudai.ia`), jamais incluse dans l'export ;
 - sans « mémoriser », elle est oubliée à la fermeture de l'onglet ;
-- les appels partent directement du navigateur vers l'API Anthropic (SDK officiel, chargé seulement quand un modèle est connecté) et sont facturés sur ton compte.
+- les appels partent du navigateur (ou du relais local) vers l'API du fournisseur choisi et sont facturés sur ton compte ;
+- le code de chaque fournisseur (`src/ai/mistral.ts`, `src/ai/anthropic.ts` avec le SDK officiel) n'est téléchargé que s'il est utilisé.
 
-Pour ajouter un autre fournisseur, il suffit d'implémenter l'interface `AIProvider` de `src/ai/types.ts` et de la brancher dans `src/ai/client.ts`.
+Pour ajouter un autre fournisseur, il suffit d'implémenter l'interface `AIProvider` de `src/ai/types.ts`, de la déclarer dans `PROVIDERS` (`src/ai/config.ts`) et de la brancher dans `src/ai/client.ts`.
 
 ## Sauvegarde
 
