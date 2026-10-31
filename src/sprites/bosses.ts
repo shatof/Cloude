@@ -396,6 +396,40 @@ function cheval(): Sprite {
   return g.toSprite();
 }
 
+function sansfrein(): Sprite {
+  const g = new PixelGrid(32, 32);
+  // Roues du caddie, en mouvement
+  g.disc(9, 28, 2.6, 'k').disc(9, 28, 1, 'i');
+  g.disc(22, 28, 2.6, 'k').disc(22, 28, 1, 'i');
+  // Panier du caddie
+  fillPolygon(
+    g,
+    [
+      [6, 11],
+      [27, 11],
+      [24, 24],
+      [9, 24],
+    ],
+    's',
+  );
+  // Grille du panier
+  g.vline(12, 12, 23, 'c').vline(16, 12, 23, 'c').vline(20, 12, 23, 'c');
+  g.hline(7, 26, 15, 'c').hline(8, 25, 19, 'c');
+  // Poignée
+  g.bevelBox(25, 6, 5, 3, { fill: 'b', r: 1 });
+  g.vline(27, 9, 11, 'b');
+  // Marchandises qui débordent
+  g.rect(9, 7, 4, 4, 'r').rect(14, 6, 4, 5, 'o').rect(19, 8, 4, 3, 'l');
+  // Yeux fous et bouche avide
+  g.rect(12, 14, 3, 3, 'w').rect(12, 15, 2, 2, 'k');
+  g.rect(18, 14, 3, 3, 'w').rect(19, 15, 2, 2, 'k');
+  g.stamp(['k.....k', '.kwwwk.', '..kkk..'], 11, 19);
+  // Traits de vitesse (il fonce, sans frein)
+  g.hline(0, 4, 20, 'w').hline(1, 4, 24, 'c').hline(0, 3, 28, 'w');
+  g.outline('k');
+  return g.toSprite();
+}
+
 export const BOSS_SPRITES: Record<string, Sprite> = {
   tokenivore: tokenivore(),
   baratineur: baratineur(),
@@ -409,4 +443,5 @@ export const BOSS_SPRITES: Record<string, Sprite> = {
   spaghetti: spaghetti(),
   goodhart: goodhart(),
   cheval: cheval(),
+  sansfrein: sansfrein(),
 };

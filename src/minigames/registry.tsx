@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import { assemblyConfig } from './assembly/config';
 import { conductorConfig } from './conductor/config';
 import { contextSuitcaseConfig } from './contextSuitcase/config';
+import { governanceConfig } from './governance/config';
 import { injectionLabConfig } from './injectionLab/config';
 import { configuredMiniGame } from './kit/rounds';
 import { librarianConfig } from './librarian/config';
@@ -32,4 +33,5 @@ export const MINIGAMES: Record<string, ComponentType<MiniGameProps>> = {
   switchboard: configuredMiniGame(switchboardConfig),
   'test-bench': configuredMiniGame(testBenchConfig),
   'injection-lab': configuredMiniGame(injectionLabConfig),
+  governance: configuredMiniGame(governanceConfig),
 };
