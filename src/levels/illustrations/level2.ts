@@ -13,13 +13,14 @@ export const LEVEL2_ILLUSTRATIONS = {
   }),
   'l2-call-flow': stepsIllustration(
     [
+      { who: 'Pensée', tone: 'model', text: '« Inès veut noter un partiel : l’outil creer_evenement est fait pour ça. »' },
       { who: 'Modèle', tone: 'model', text: 'creer_evenement({"date": "2027-01-12", "titre": "Partiel de réseaux"})', code: true },
       { who: 'Harnais', tone: 'harness', text: 'Valide l’appel : outil connu, `date` au bon format, `titre` présent.' },
       { who: 'Monde', tone: 'world', text: 'L’agenda crée l’événement n° 88.' },
       { who: 'Harnais', tone: 'harness', text: 'Résultat renvoyé : {"ok": true, "id": 88}', code: true },
       { who: 'Modèle', tone: 'model', text: '« C’est noté : partiel de réseaux le 12 janvier 2027. »' },
     ],
-    'Le modèle propose un appel, le harnais le valide et l’exécute, le résultat revient dans le contexte.',
+    'Le modèle propose un appel, le harnais le valide et l’exécute, le résultat revient dans le contexte. Et la petite pensée avant l’appel ? On verra au niveau 3 pourquoi elle compte.',
   ),
   'l2-tool-design': toggleIllustration([
     {

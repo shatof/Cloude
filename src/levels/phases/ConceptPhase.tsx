@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { getHood } from '../../content/hood';
 import type { LevelDefinition } from '../../content/types';
 import { useGame } from '../../game/GameContext';
 import { Icon } from '../../ui/Icon';
 import { RichText, T } from '../../ui/typography';
 import { ILLUSTRATIONS } from '../illustrations';
 import { goToPhase } from '../LevelPlayer';
+import { UnderTheHoodPanel } from '../UnderTheHoodPanel';
 
 export function ConceptPhase({ level }: { level: LevelDefinition }) {
   const { save, dispatch, sfx } = useGame();
@@ -13,6 +15,7 @@ export function ConceptPhase({ level }: { level: LevelDefinition }) {
   const [index, setIndex] = useState(() => (seen >= screens.length ? 0 : Math.min(seen, screens.length - 1)));
   const screen = screens[index]!;
   const Illustration = screen.illustration ? ILLUSTRATIONS[screen.illustration] : undefined;
+  const hood = getHood(level.id, screen.id);
   const last = index === screens.length - 1;
 
   useEffect(() => {
@@ -49,6 +52,8 @@ export function ConceptPhase({ level }: { level: LevelDefinition }) {
       <aside className="concept__illus frame frame--dim" aria-label="Illustration interactive">
         {Illustration ? <Illustration /> : null}
       </aside>
+
+      {hood ? <UnderTheHoodPanel key={screen.id} hood={hood} /> : null}
 
       <nav className="concept__nav" aria-label="Écrans du concept">
         <button type="button" className="btn btn--secondary" onClick={() => go(index - 1)} disabled={index === 0}>

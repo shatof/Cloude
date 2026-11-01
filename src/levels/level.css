@@ -839,3 +839,108 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* « Sous le capot » : l'implémentation, repliable, sous chaque concept */
+/* ------------------------------------------------------------------ */
+
+.hood {
+  grid-column: 1 / -1;
+  background: #1d2133;
+}
+
+.hood__summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--cyan);
+}
+
+.hood__summary::-webkit-details-marker {
+  display: none;
+}
+
+.hood__summary::after {
+  content: '+';
+  margin-left: auto;
+  font-family: var(--font-data);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--steel);
+}
+
+.hood[open] .hood__summary::after {
+  content: '-';
+}
+
+.hood__summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.hood__kicker {
+  font-weight: 600;
+}
+
+.hood__title {
+  color: var(--paper);
+}
+
+.hood__body {
+  display: grid;
+  gap: 12px;
+  padding: 0 18px 18px;
+}
+
+.hood__common {
+  margin: 0;
+  color: var(--steel);
+  font-size: 0.92rem;
+}
+
+.hood__code-wrap {
+  display: grid;
+}
+
+.hood__label {
+  justify-self: start;
+  padding: 2px 8px;
+  background: var(--night);
+  color: var(--steel);
+  font-family: var(--font-data);
+  font-size: 1rem;
+}
+
+.hood__code {
+  margin: 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  background: var(--ink);
+  color: var(--lime);
+  font-family: var(--font-data);
+  font-size: 1.1rem;
+  line-height: 1.25;
+  white-space: pre;
+  tab-size: 4;
+  box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.hood__code code {
+  /* le style des petits « code » en ligne (rembourrage, taille) ne s'applique pas ici */
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.hood__notes {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.95rem;
+}

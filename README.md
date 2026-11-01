@@ -39,6 +39,7 @@ Le dossier `dist/` produit par le build est un site statique : il peut être ser
 | Mode révision : flashcards générées depuis les cartes (boîtes de Leitner) + défi éclair | ✅ |
 | Sauvegarde dans le navigateur, export / import / réinitialisation | ✅ |
 | **Les 14 niveaux, du token à l'architecte** (0 à 12 + boss final) | ✅ complets |
+| « Sous le capot » : sous chaque écran de concept, l'implémentation réelle en Python, version Claude et version Mistral (41 extraits) | ✅ |
 | Couche « IA réelle » optionnelle (tuteur, juge du boss final, labo d'injection) | ✅ modèle Mistral ou Anthropic, avec repli prédéfini |
 
 ### Le parcours
@@ -73,6 +74,12 @@ Chaque niveau suit les mêmes 5 phases :
 5. **Récompense** : une pièce de harnais fixée sur Bob, des cartes de glossaire et de l'XP.
 
 Rejouer une phase ne rapporte que l'amélioration par rapport à son meilleur score : l'XP reste bornée (250 par niveau).
+
+### « Sous le capot »
+
+Chaque écran de concept se termine par un panneau repliable qui montre comment le concept s'implémente vraiment : le paramètre `tools`, la boucle agentique, le cache de prompt, les embeddings, un serveur MCP, la séparation des privilèges… Quand le code dépend du fournisseur, deux onglets montrent la version **Claude** (SDK `anthropic`) et la version **Mistral** (SDK `mistralai`) ; quand il ne dépend que du harnais (permissions, hooks, vérification…), une seule version commune. L'onglet choisi est mémorisé ; par défaut, c'est celui du fournisseur connecté dans les Réglages.
+
+Les extraits sont écrits d'après la documentation officielle (référence de l'API Claude, code source du SDK Python de Mistral) et des tests vérifient les pièges connus : pas de `temperature` ni de `budget_tokens` côté Claude, import `from mistralai.client import Mistral` et clé `schema_definition` côté Mistral, aucun identifiant de modèle en dur (`MODELE`).
 
 ## Architecture
 

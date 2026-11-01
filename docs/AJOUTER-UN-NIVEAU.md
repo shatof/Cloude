@@ -86,7 +86,24 @@ enregistré directement dans le registre (voir `tokenWorkshop`, `loopRunner`).
 - Les 14 pièces de harnais ont déjà leur calque sur Bob (`src/sprites/bob.ts`).
 - Vérifier le rendu sur la route cachée `#/atelier-sprites`.
 
-## 6. La couche IA (niveau 11 et boss final)
+## 6. « Sous le capot »
+
+Chaque écran de concept doit avoir son extrait technique (un test le vérifie).
+Les extraits vivent dans `src/content/hood/`, un fichier par zone, sous la clé
+`'idNiveau:idEcran'`. On les écrit avec les petits constructeurs de `kit.ts` :
+
+- `hood(titre, ...variantes)` ;
+- `claude(code, notes)` et `mistral(code, notes)` quand le code dépend du fournisseur
+  (les deux, toujours ensemble) ;
+- `commun(etiquette, code, notes)` quand le code ne dépend que du harnais ;
+- le gabarit `py` pour le code : les antislashs restent tels quels, mais pas
+  d'accent grave ni de séquence dollar-accolade dans le code.
+
+Limites vérifiées par `hood.test.ts` : 34 lignes et 92 caractères par ligne au
+plus, 1 à 4 notes de 60 mots maximum, aucun identifiant de modèle en dur (utiliser
+`MODELE`), et les pièges d'API connus (voir le test).
+
+## 7. La couche IA (niveau 11 et boss final)
 
 - Labo de prompt injection : `runInjectionAttempt()` de `src/ai/injection.ts`
   (vrai modèle si connecté, simulation déterministe sinon). Principe à faire
@@ -95,7 +112,7 @@ enregistré directement dans le registre (voir `tokenWorkshop`, `loopRunner`).
   appeler `evaluateFinalBoss()` de `src/ai/finalBoss.ts`. La note vient toujours
   de la grille déterministe ; le juge IA ne fait qu'ajouter un commentaire.
 
-## 7. Vérifier
+## 8. Vérifier
 
 ```bash
 npm test

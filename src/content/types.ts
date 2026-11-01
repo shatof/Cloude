@@ -109,6 +109,28 @@ export interface ConceptScreen {
   illustration?: string;
 }
 
+/**
+ * « Sous le capot » : comment un concept s'implémente concrètement.
+ * Une variante « commun » quand le code ne dépend que du harnais,
+ * ou deux variantes « claude » et « mistral » quand l'API du fournisseur compte.
+ */
+export type HoodProvider = 'claude' | 'mistral' | 'commun';
+
+export interface HoodVariant {
+  provider: HoodProvider;
+  /** Étiquette technique : « Python · SDK Anthropic », « Python · harnais »… */
+  label: string;
+  /** Extrait affiché tel quel (police « données »). */
+  code: string;
+  /** 1 à 4 remarques courtes sur les lignes clés. */
+  notes: RichText[];
+}
+
+export interface UnderTheHood {
+  title: string;
+  variants: HoodVariant[];
+}
+
 export interface MiniGameSpec {
   /** Clé du composant de mini-jeu (src/minigames/registry.tsx). */
   id: string;
